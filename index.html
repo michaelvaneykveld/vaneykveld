@@ -2,14 +2,139 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>UDID ophalen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UDID & App Installatie</title>
+    <style>
+        /* Basis layout */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 1rem auto 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #4CAF50;
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            padding-left: 1.5rem;
+        }
+
+        /* App grid */
+        .app-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .app-card {
+            background: #f0f0f0;
+            width: 120px;
+            padding: 1rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .app-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 400px) {
+            .app-card {
+                width: 45%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welkom!</h1>
-    <p>Om je iOS UDID te vinden, klik op onderstaande link. Je wordt doorgestuurd naar een veilige dienst die je UDID toont, nadat je een profiel op je device hebt geinstalleerd:</p>
-    <ul>
-        <li><a href="https://udid.tech/instruction" target="_blank">Klik hier om je UDID te vinden</a></li>
-    </ul>
-    <p>Copy Paste je UDID en stuur deze naar mij, zodat we je device kunnen toevoegen aan de app distributie.</p>
+    <header>
+        <h1>UDID & App Installatie</h1>
+    </header>
+    <main>
+        <h1>Stap 1: UDID ophalen</h1>
+        <p>Om je iOS UDID te vinden, klik op onderstaande link. Je wordt doorgestuurd naar een veilige dienst die je UDID toont, nadat je een profiel op je device hebt geïnstalleerd:</p>
+        <ul>
+            <li><a href="https://udid.tech/instruction" target="_blank">Klik hier om je UDID te vinden</a></li>
+        </ul>
+        <p>Copy/paste je UDID en stuur deze naar ons, zodat we je device kunnen toevoegen aan de app distributie.</p>
+
+        <h1>Apps Installeren</h1>
+        <p>Hier komen de apps die je kan installeren:</p>
+        <div class="app-grid">
+            <div class="app-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Icon">
+                <p>Spotify</p>
+            </div>
+            <div class="app-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Icon">
+                <p>YouTube</p>
+            </div>
+            <!-- Voeg hier meer apps toe -->
+        </div>
+    </main>
+    <footer>
+        &copy; 2025 vaneykveld.be
+    </footer>
 </body>
 </html>
+
