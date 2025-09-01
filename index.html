@@ -56,9 +56,15 @@
         /* App grid */
         .app-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
             margin-top: 1.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .app-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .app-card {
@@ -80,6 +86,7 @@
             height: 70px;
             border-radius: 16px;
             margin-bottom: 0.8rem;
+            object-fit: cover;
         }
 
         .app-card p {
@@ -121,10 +128,10 @@
         <ul>
             <li><a href="https://udid.tech/instruction" target="_blank">Klik hier om je UDID te vinden</a></li>
         </ul>
-        <p>Copy/paste je UDID en stuur deze naar mij, zodat ik je device kan toevoegen aan de app distributie.</p>
+        <p>Copy/paste je UDID en stuur deze naar ons, zodat we je device kunnen toevoegen aan de app distributie.</p>
 
         <h1>Apps Installeren</h1>
-        <p>Hieronder vind je de apps die je daarna kan installeren:</p>
+        <p>Hieronder vind je de apps die je binnenkort kan installeren:</p>
         <div class="app-grid">
             <div class="app-card">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
@@ -147,8 +154,13 @@
                 <a href="#" class="install-btn">Installeren</a>
             </div>
             <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Infuse_app_logo.png" alt="Infuse">
+                <img src="https://is4-ssl.mzstatic.com/image/thumb/Purple112/v4/94/62/4c/94624c41-c35b-cf1a-47ff-3304c2e30c95/AppIcon-0-0-1x_U007emarketing-0-7-0-0-sRGB-85-220.png/246x0w.png" alt="Infuse">
                 <p>Infuse</p>
+                <a href="#" class="install-btn">Installeren</a>
+            </div>
+            <div class="app-card">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple125/v4/73/65/14/736514c2-3576-f210-ecb5-5b9ddcaa5b4d/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/246x0w.png" alt="Apollo">
+                <p>Apollo</p>
                 <a href="#" class="install-btn">Installeren</a>
             </div>
             <div class="app-card">
@@ -157,12 +169,7 @@
                 <a href="#" class="install-btn">Installeren</a>
             </div>
             <div class="app-card">
-                <img src="https://is4-ssl.mzstatic.com/image/thumb/Purple116/v4/bd/63/7b/bd637b6f-3732-6a5a-cd77-dcf6a6ae2bc6/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/1200x630wa.png" alt="Apollo">
-                <p>Apollo</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-            <div class="app-card">
-                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/ff/06/36/ff06364b-3d73-7a4d-2c0e-ef9f8b1c84c1/AppIcon-0-1x_U007emarketing-0-10-0-85-220.png/1200x630wa.png" alt="Filza">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Folder_icon.svg" alt="Filza (placeholder)">
                 <p>Filza</p>
                 <a href="#" class="install-btn">Installeren</a>
             </div>
