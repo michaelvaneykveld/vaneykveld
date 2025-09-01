@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UDID & App Installatie</title>
     <style>
-        /* Basis layout */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: #f9f9f9;
@@ -22,7 +21,7 @@
         }
 
         main {
-            max-width: 600px;
+            max-width: 900px;
             margin: 1rem auto 2rem auto;
             background: white;
             padding: 2rem;
@@ -56,17 +55,15 @@
 
         /* App grid */
         .app-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
         }
 
         .app-card {
             background: #f0f0f0;
-            width: 120px;
-            padding: 1rem;
+            padding: 1.2rem;
             border-radius: 20px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
@@ -79,16 +76,31 @@
         }
 
         .app-card img {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 16px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
         }
 
         .app-card p {
-            margin: 0;
-            font-size: 0.95rem;
+            margin: 0.3rem 0 0.8rem 0;
+            font-size: 1rem;
             font-weight: 600;
+        }
+
+        .install-btn {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .install-btn:hover {
+            background: #45a049;
         }
 
         footer {
@@ -96,13 +108,6 @@
             font-size: 0.9rem;
             color: #888;
             margin-top: 2rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 400px) {
-            .app-card {
-                width: 45%;
-            }
         }
     </style>
 </head>
@@ -116,23 +121,51 @@
         <ul>
             <li><a href="https://udid.tech/instruction" target="_blank">Klik hier om je UDID te vinden</a></li>
         </ul>
-        <p>Copy/paste je UDID en stuur deze naar ons, zodat we je device kunnen toevoegen aan de app distributie.</p>
-
-        <h1>Stap 2: Profiel wissen</h1>
-        <p>Verwijder nu het profiel terug uit je device, we hebben dit niet meer nodig. Zodra ik je zeg dat alles is geactiveerd kan je met de links hieronder de apps installeren.</p>
+        <p>Copy/paste je UDID en stuur deze naar mij, zodat ik je device kan toevoegen aan de app distributie.</p>
 
         <h1>Apps Installeren</h1>
-        <p>Hier komen de apps die je kan installeren:</p>
+        <p>Hieronder vind je de apps die je daarna kan installeren:</p>
         <div class="app-grid">
             <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify Icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
                 <p>Spotify</p>
+                <a href="#" class="install-btn">Installeren</a>
             </div>
             <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube">
                 <p>YouTube</p>
+                <a href="#" class="install-btn">Installeren</a>
             </div>
-            <!-- Voeg hier meer apps toe -->
+            <div class="app-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+                <p>Instagram</p>
+                <a href="#" class="install-btn">Installeren</a>
+            </div>
+            <div class="app-card">
+                <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok">
+                <p>TikTok</p>
+                <a href="#" class="install-btn">Installeren</a>
+            </div>
+            <div class="app-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Infuse_app_logo.png" alt="Infuse">
+                <p>Infuse</p>
+                <a href="#" class="install-btn">Installeren</a>
+            </div>
+            <div class="app-card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+                <p>Facebook</p>
+                <a href="#" class="install-btn">Installeren</a>
+            </div>
+            <div class="app-card">
+                <img src="https://is4-ssl.mzstatic.com/image/thumb/Purple116/v4/bd/63/7b/bd637b6f-3732-6a5a-cd77-dcf6a6ae2bc6/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/1200x630wa.png" alt="Apollo">
+                <p>Apollo</p>
+                <a href="#" class="install-btn">Installeren</a>
+            </div>
+            <div class="app-card">
+                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/ff/06/36/ff06364b-3d73-7a4d-2c0e-ef9f8b1c84c1/AppIcon-0-1x_U007emarketing-0-10-0-85-220.png/1200x630wa.png" alt="Filza">
+                <p>Filza</p>
+                <a href="#" class="install-btn">Installeren</a>
+            </div>
         </div>
     </main>
     <footer>
@@ -140,4 +173,3 @@
     </footer>
 </body>
 </html>
-
