@@ -308,7 +308,7 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
             <li><strong>Settings:</strong> Ensure the type is set to <strong>"DTS-HD"</strong>.</li>
             <li><strong>Execute:</strong> This will create the <code>.ves</code> and <code>.mui</code> files needed for import.</li>
             <li><strong>If Scenarist complains about the bitrate</strong>, open the .ves file in notepad and ensure PeakBitrate uses a dot, not a comma. (This is a classic legacy bug in Sonic software (CineVision/Scenarist). If your Windows "Regional Settings" are set to a country that uses a comma as a decimal separator)</li>
-            <li>Professional encoders add a 21ms "padding" to DTS-HD files. Scenarist automatically removes this. If your audio was extracted from an MKV, it lacks this padding. The Result: Your audio will be 21ms out of sync (late) unless you either re-encode with the DTS-HD Master Audio Suite (MAS) or manually adjust the "Time Info" offset in Scenarist's Clip Editor to compensate.</li>
+            <li><strong>WARNING:</strong> Professional encoders add a 21ms "padding" to DTS-HD files. Scenarist automatically removes this. If your audio was extracted from an MKV, it lacks this padding. The Result: Your audio will be 21ms out of sync (late) unless you either re-encode with the DTS-HD Master Audio Suite (MAS) or manually adjust the "Time Info" offset in Scenarist's Clip Editor to compensate.</li>
         </ol>
     </div>
 
