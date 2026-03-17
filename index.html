@@ -222,20 +222,49 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         </section>
 
         <section>
-            <h2>Part B: The FFmpeg "Surgical" Extraction</h2>
-            <p>Professional tools require raw elementary streams. Use the matching command for your audio type:</p>
+    <h2>Part B: Extracting the Audio with FFmpeg</h2>
+    
+    <p>Professional authoring tools are extremely picky—they cannot read an MKV file directly. We need to perform "surgery" to pull out the raw audio data. Before we do that, we must identify exactly which audio track we want to grab.</p>
 
-            <h3>Scenario 1: TrueHD or Atmos (The "Split" Method)</h3>
-            <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.mlp -map 0:a:0 -c copy movie.ac3</pre>
+    <h3>1. Preliminary: Find your Track Number</h3>
+    <p>Movies often have multiple audio tracks (different languages or commentary). We need to find the <strong>Stream Index</strong> of the one you want. Run this command:</p>
+    
+    <pre>ffprobe -v error -show_streams -select_streams a backup.mkv</pre>
 
-            <h3>Scenario 2: DTS-HD Master Audio</h3>
-            <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.dts</pre>
+    <p>Look at the results and find the language you need. The "Index" number determines your <code>-map</code> setting:</p>
+    <ul>
+        <li>If your track is the <strong>first</strong> one listed: Use <code>-map 0:a:0</code></li>
+        <li>If your track is the <strong>second</strong> one listed: Use <code>-map 0:a:1</code></li>
+        <li><em>(And so on...)</em></li>
+    </ul>
 
-            <h3>Scenario 3: EAC3 (7.1 Dolby Digital Plus)</h3>
-            <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ec3</pre>
+    <h3>2. Run the Extraction Command</h3>
+    <p>Choose the command below that matches the type of audio you selected in MakeMKV. If your track index wasn't 0, remember to update the <code>-map</code> part!</p>
 
-            <h3>Scenario 4: Standard AC3 (5.1 or 2.0)</h3>
-            <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ac3</pre>
+    <div class="scenario">
+        <h3>Scenario 1: TrueHD or Atmos (The "Split" Method)</h3>
+        <p>Blu-ray standards require TrueHD to be split into two files: a lossless <code>.mlp</code> and a compatible <code>.ac3</code> core.</p>
+        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.mlp -map 0:a:0 -c copy movie.ac3</pre>
+    </div>
+
+    <div class="scenario">
+        <h3>Scenario 2: DTS-HD Master Audio</h3>
+        <p>DTS-HD is simpler; the high-res audio and the "core" surround sound live in one file.</p>
+        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.dts</pre>
+    </div>
+
+    <div class="scenario">
+        <h3>Scenario 3: EAC3 (7.1 Dolby Digital Plus)</h3>
+        <p>Commonly used for high-bitrate surround sound that isn't TrueHD.</p>
+        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ec3</pre>
+    </div>
+
+    <div class="scenario">
+        <h3>Scenario 4: Standard AC3 (5.1 or 2.0 Stereo)</h3>
+        <p>The universal standard for basic surround or stereo tracks.</p>
+        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ac3</pre>
+    </div>
+
 
             <hr>
 
