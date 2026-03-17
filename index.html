@@ -139,8 +139,8 @@
         <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw]; \
  [l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout]; \
  [r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" \
--map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p left_eye.264 \
--map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p right_eye.264</pre>
+-map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p left_eye.mkv \
+-map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p right_eye.mkv</pre>
 
         <h3>Command Breakdown: What is happening?</h3>
         <table>
@@ -196,8 +196,8 @@
         <p>Before you move to the authoring software, you must ensure both files have the <strong>exact same number of frames</strong>. Even a one-frame difference can cause the 3D effect to fail or the player to crash.</p>
         
         <p>Run these two commands:</p>
-        <pre>ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 left_eye.264
-ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 right_eye.264</pre>
+        <pre>ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 left_eye.mkv
+ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 right_eye.mkv</pre>
 
         <p>The result must be <strong>identical</strong>. If the left is 144,000 frames, the right must be 144,000 frames.</p>
 
@@ -205,7 +205,7 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         <ul>
             <li><strong>Resolution:</strong> By padding to 1080p, you satisfy the "BD-ROM" physical specification.</li>
             <li><strong>Timing:</strong> By using a single command to split, you eliminate "drift" between eyes.</li>
-            <li><strong>Bitstream:</strong> Using <code>.264</code> (raw elementary streams) is the "language" professional authoring tools like Scenarist or TSmuXer speak.</li>
+            <li><strong>Bitstream:</strong> Using <code>x264</code> (raw elementary streams) is the "language" professional authoring tools like Cinevision wants in an .mkv container</li>
         </ul>
     </section>
 
