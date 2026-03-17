@@ -134,7 +134,7 @@
         </div>
 
         <h3>The Command</h3>
-        <p>Run this in your terminal</p>
+        <p>Run this in your terminal:</p>
         
         <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw]; \
  [l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout]; \
@@ -143,7 +143,7 @@
 -map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p right_eye.mkv</pre>
 
         <p>You want to use the command in 1 line when using command prompt instead:</p>
-        <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw];[l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout];[r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" -map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p left_eye_3D.mkv -map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p right_eye_3D.mkv</pre>
+        <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw];[l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout];[r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" -map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p left_eye.mkv -map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p right_eye.mkv</pre>
 
         <h3>Command Breakdown: What is happening?</h3>
         <table>
@@ -208,7 +208,7 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         <ul>
             <li><strong>Resolution:</strong> By padding to 1080p, you satisfy the "BD-ROM" physical specification.</li>
             <li><strong>Timing:</strong> By using a single command to split, you eliminate "drift" between eyes.</li>
-            <li><strong>Bitstream:</strong> Using <code>x264</code> (raw elementary streams) is the "language" professional authoring tools like Cinevision wants in an .mkv container</li>
+            <li><strong>Bitstream:</strong> Creating <code>x264</code> video inside an <code>mkv</code> container is what our Cinevision encoder program wants as input.</li>
         </ul>
     </section>
 
