@@ -214,9 +214,112 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
 
     <footer>
         <hr>
-        <p><em>Proceed to the next step: Extracting and converting audio/subtitles.</em></p>
+        <p><em>Proceed to the next step: Extracting and converting audio from a blu ray disc.</em></p>
     </footer>
 </article>
 
+<article>
+    <header>
+        <h1>Step 2: Extracting Master-Quality Audio</h1>
+        <p>In this phase, we move from video to high-fidelity audio. Professional Blu-ray authoring requires "Elementary Streams"—clean, individual audio files stripped of their containers.
+        We want to use a retail 4k or regular blu ray disc to extract the best possible audio quality, making sure we are using the exact same version of the movie.</p>
+    </header>
+
+    <section>
+        <h2>Part A: The MakeMKV Pull</h2>
+        <p>First, we need to get the data off the physical disc without changing a single bit of quality.</p>
+        
+        <ol>
+            <li><strong>Open the Disc:</strong> Launch MakeMKV and click the Optical Drive icon.</li>
+            <li><strong>Select the Title:</strong> Find the largest Title (the main movie). Expand it by clicking the [+] or arrow.</li>
+            <li><strong>Uncheck Video:</strong> You already handled the video in Step 1.</li>
+            <li><strong>Select Audio:</strong> Check the high-definition tracks (DTS-HD MA, TrueHD, etc.) and your preferred languages.</li>
+            <li><strong>Output:</strong> Click "Make MKV". You now have a file (e.g., <code>backup.mkv</code>) containing only the master audio.</li>
+        </ol>
+
+        <div class="screenshot-container">
+            <a href="LINK_TO_IMAGEBAM_MAKEMKV_SCREENSHOT" target="_blank">
+                <img src="https://via.placeholder.com/800x350.png?text=MakeMKV+Audio+Selection+Interface" alt="MakeMKV interface showing audio tracks">
+            </a>
+            <span class="caption">Figure 2: Selecting only the HD audio tracks in MakeMKV.</span>
+        </div>
+    </section>
+
+    <section>
+        <h2>Part B: The FFmpeg "Surgical" Extraction</h2>
+        <p>Professional authoring tools are very picky. You cannot just give them an MKV; you must provide the raw "elementary" audio streams. Use the command that matches your audio type:</p>
+
+        <h3>Scenario 1: TrueHD or Atmos (The "Split" Method)</h3>
+        <p>Blu-ray standards require a "Core" AC3 track for older players and an "MLP" track for the lossless Atmos data. They must have the same filename.</p>
+        
+        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.mlp -map 0:a:0 -c copy movie.ac3</pre>
+
+        <div class="authoring-tip">
+            <strong>Authoring Tip:</strong> Drag <code>movie.ac3</code> into Scenarist. When it asks, select "Dolby Lossless". It will automatically "hook" the <code>.mlp</code> file.
+        </div>
+
+        <h3>Scenario 2: DTS-HD Master Audio</h3>
+        <p>DTS-HD is a "unified" stream. The 5.1 "Core" and the 7.1 "Extension" live together in one file.</p>
+        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.dts</pre>
+        
+        <div class="authoring-tip">
+            <strong>Authoring Tip:</strong> Scenarist handles this as a single asset.
+        </div>
+
+        <h3>Scenario 3: EAC3 (7.1 Dolby Digital Plus)</h3>
+        <p>Specifically for 7.1 tracks that aren't TrueHD.</p>
+        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ec3</pre>
+
+        <h3>Scenario 4: Standard AC3 (5.1 Surround or 2.0 Stereo)</h3>
+        <p>The most compatible format for "bonus" tracks or basic stereo.</p>
+        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ac3</pre>
+
+        <hr>
+
+        <h2>Technical Cheat Sheet</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>If your Audio is...</th>
+                    <th>Use this Extension</th>
+                    <th>Why?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Atmos / TrueHD</td>
+                    <td><code>.ac3 + .mlp</code></td>
+                    <td>Ensures the disc plays on both 4K Atmos setups and legacy receivers.</td>
+                </tr>
+                <tr>
+                    <td>DTS-HD MA</td>
+                    <td><code>.dts</code></td>
+                    <td>Contains both the Lossless "Master Audio" and the "Digital Surround" core.</td>
+                </tr>
+                <tr>
+                    <td>7.1 DD+</td>
+                    <td><code>.ec3</code></td>
+                    <td>Required for high-bitrate Dolby Digital Plus streams.</td>
+                </tr>
+                <tr>
+                    <td>Stereo / 5.1</td>
+                    <td><code>.ac3</code></td>
+                    <td>The universal standard for "standard definition" audio on a disc.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="authoring-tip">
+            <strong>Pro-Tip: Identifying the Track Index</strong><br>
+            If your MakeMKV file has multiple languages, <code>-map 0:a:0</code> grabs the first one. If the English track is the second one listed in MakeMKV, change the command to <code>-map 0:a:1</code>.
+        </div>
+    </section>
+
+    <footer>
+        <hr>
+        <p><em>Proceed to the next step: Subtitle Conversion and Muxing.</em></p>
+    </footer>
+</article>
+    
 </body>
 </html>
