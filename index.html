@@ -3,180 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UDID & App Installatie</title>
+    <title>Minimalistische Tutorial</title>
     <style>
+        /* Basisinstellingen volgens 'Art of Minimal' principes */
+        :root {
+            --text-color: #222;
+            --bg-color: #fff;
+            --accent-color: #555;
+            --border-color: #eee;
+            --max-width: 700px;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        main {
-            max-width: 900px;
-            margin: 1rem auto 2rem auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            color: #4CAF50;
-            font-size: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        p {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
         }
 
-        a {
-            color: #1a73e8;
-            text-decoration: none;
-            font-weight: bold;
+        article {
+            max-width: var(--max-width);
+            width: 100%;
         }
 
-        a:hover {
-            text-decoration: underline;
-        }
+        /* Typografie */
+        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1.2; }
+        h2 { font-size: 1.75rem; margin-top: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.25rem; margin-top: 2rem; color: var(--accent-color); }
+        
+        p { margin-bottom: 1.5rem; }
 
-        ul {
-            padding-left: 1.5rem;
-        }
-
-        /* App grid */
-        .app-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
-        @media (max-width: 700px) {
-            .app-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .app-card {
-            background: #f0f0f0;
-            padding: 1.2rem;
-            border-radius: 20px;
+        /* Imagebam Thumbnail Layout */
+        .screenshot-container {
+            margin: 2rem 0;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .app-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        .screenshot-container img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            transition: opacity 0.2s;
         }
 
-        .app-card img {
-            width: 70px;
-            height: 70px;
-            border-radius: 16px;
-            margin-bottom: 0.8rem;
-            object-fit: cover;
+        .screenshot-container img:hover {
+            opacity: 0.8;
         }
 
-        .app-card p {
-            margin: 0.3rem 0 0.8rem 0;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .install-btn {
-            display: inline-block;
-            background: #4CAF50;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
+        .caption {
+            display: block;
             font-size: 0.9rem;
-            text-decoration: none;
-            transition: background 0.2s;
+            color: #777;
+            margin-top: 0.5rem;
+            font-style: italic;
         }
 
-        .install-btn:hover {
-            background: #45a049;
-        }
+        /* Links */
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        footer {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #888;
-            margin-top: 2rem;
+        /* Responsiviteit */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            body { padding: 1rem; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>UDID & App Installatie</h1>
-    </header>
-    <main>
-        <h1>Stap 1: UDID ophalen</h1>
-        <p>Om je iOS UDID te vinden, klik op onderstaande link. Je wordt doorgestuurd naar een veilige dienst die je UDID toont, nadat je een profiel op je device hebt geïnstalleerd:</p>
-        <ul>
-            <li><a href="https://udid.tech/instruction" target="_blank">Klik hier om je UDID te vinden</a></li>
-        </ul>
-        <p>Copy/paste je UDID en stuur deze naar ons, zodat we je device kunnen toevoegen aan de app distributie.</p>
 
-        <h1>Apps Installeren</h1>
-        <p>Hieronder vind je de apps die je binnenkort kan installeren:</p>
-        <div class="app-grid">
-            <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify">
-                <p>Spotify</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-            <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube">
-                <p>YouTube</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-            <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-                <p>Instagram</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-            <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg" alt="TikTok">
-                <p>TikTok</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-            <div class="app-card">
-                <img src="https://is4-ssl.mzstatic.com/image/thumb/Purple112/v4/94/62/4c/94624c41-c35b-cf1a-47ff-3304c2e30c95/AppIcon-0-0-1x_U007emarketing-0-7-0-0-sRGB-85-220.png/246x0w.png" alt="Infuse">
-                <p>Infuse</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-            <div class="app-card">
-                <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple125/v4/73/65/14/736514c2-3576-f210-ecb5-5b9ddcaa5b4d/AppIcon-0-1x_U007emarketing-0-7-0-85-220.png/246x0w.png" alt="Apollo">
-                <p>Apollo</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-            <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
-                <p>Facebook</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-            <div class="app-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/8/89/Folder_icon.svg" alt="Filza (placeholder)">
-                <p>Filza</p>
-                <a href="#" class="install-btn">Installeren</a>
-            </div>
-        </div>
-    </main>
+<article>
+    <header>
+        <h1>Titel van je Tutorial</h1>
+        <p><em>Een korte introductie over wat de lezer gaat leren in deze gids.</em></p>
+    </header>
+
+    <h2>1. De Eerste Stap</h2>
+    <p>Hier begin je met de uitleg. Omdat we de "Art of Minimal" hanteren, gebruiken we geen complexe grids. De tekst vloeit natuurlijk onder elkaar, wat ideaal is voor leesbaarheid op zowel een iPhone als een breed scherm.</p>
+    
+    <h3>Sub-onderdeel van de stap</h3>
+    <p>Je kunt hier dieper op de details ingaan. Gebruik korte paragrafen voor een betere scanbaarheid.</p>
+
+    <div class="screenshot-container">
+        <a href="https://www.imagebam.com/LINK_NAAR_VOLLEDIGE_FOTO" target="_blank">
+            <img src="https://thumbs4.imagebam.com/LINK_NAAR_THUMBNAIL.jpg" alt="Screenshot beschrijving">
+        </a>
+        <span class="caption">Klik op de afbeelding om deze in het groot te bekijken op Imagebam.</span>
+    </div>
+
+    <h2>2. Configuratie en Instellingen</h2>
+    <p>In dit gedeelte leg je het volgende proces uit. Door de `border-bottom` bij de H2 koppen is er een duidelijke visuele scheiding terwijl de website wit en rustig blijft.</p>
+
+    <div class="screenshot-container">
+        <a href="https://www.imagebam.com/LINK_NAAR_VOLLEDIGE_FOTO_2" target="_blank">
+            <img src="https://thumbs4.imagebam.com/LINK_NAAR_THUMBNAIL_2.jpg" alt="Screenshot stap 2">
+        </a>
+    </div>
+
+    <h2>3. Afronding</h2>
+    <p>De laatste stappen van je tutorial. Je kunt hier een samenvatting geven of tips voor verdere verdieping.</p>
+
     <footer>
-        &copy; 2025 vaneykveld.be
+        <p><hr></p>
+        <p><small>Gepubliceerd op: 17 maart 2024</small></p>
     </footer>
+</article>
+
 </body>
 </html>
