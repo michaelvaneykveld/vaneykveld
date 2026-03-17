@@ -476,46 +476,53 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         </div>
     </div>
     <script>
-    function calculateBitrate() {
-        const hours = parseInt(document.getElementById('h').value) || 0;
-        const mins = parseInt(document.getElementById('m').value) || 0;
-        const secs = parseInt(document.getElementById('s').value) || 0;
-        const totalSeconds = (hours * 3600) + (mins * 60) + secs;
+   function calculateBitrate() {
+    const hours = parseInt(document.getElementById('h').value) || 0;
+    const mins = parseInt(document.getElementById('m').value) || 0;
+    const secs = parseInt(document.getElementById('s').value) || 0;
+    const totalSeconds = (hours * 3600) + (mins * 60) + secs;
 
-        if (totalSeconds <= 0) return alert("Please enter a valid movie duration.");
+    if (totalSeconds <= 0) return alert("Please enter a valid movie duration.");
 
-        const totalCapacityMB = parseInt(document.getElementById('discType').value);
-        const otherMB = parseInt(document.getElementById('otherMB').value) || 0;
-        
-        let availableForVideoMB = (totalCapacityMB - otherMB) * 0.95; 
-        let availableBits = availableForVideoMB * 8 * 1024 * 1024; 
+    const totalCapacityMB = parseInt(document.getElementById('discType').value);
+    const otherMB = parseInt(document.getElementById('otherMB').value) || 0;
+    
+    // 1. Calculate available space with a 5% safety margin for muxing
+    let availableForVideoMB = (totalCapacityMB - otherMB) * 0.95; 
+    let availableBits = availableForVideoMB * 8 * 1024 * 1024; 
 
-        const audioKbps = parseInt(document.getElementById('audioKbps').value) || 0;
-        const audioTotalBits = audioKbps * 1000 * totalSeconds;
-        availableBits -= audioTotalBits;
+    // 2. Subtract Audio overhead
+    const audioKbps = parseInt(document.getElementById('audioKbps').value) || 0;
+    const audioTotalBits = audioKbps * 1000 * totalSeconds;
+    availableBits -= audioTotalBits;
 
-        let totalVideoBps = availableBits / totalSeconds;
-        
-        // 3D Logic: Total Video = Base + Dependent (Dep = 0.5 * Base)
-        let baseTargetBps = totalVideoBps / 1.5;
-        let baseTargetMbps = baseTargetBps / 1000000;
-        let depTargetBps = baseTargetBps * 0.5;
+    // 3. Solve for Base Bitrate
+    // Formula: Total Video = Base + Dependent (where Dep is 50% of Base)
+    let totalVideoBps = availableBits / totalSeconds;
+    let baseTargetBps = totalVideoBps / 1.5;
+    let baseTargetMbps = baseTargetBps / 1000000;
+    
+    // 4. Calculate Dependent Target (50% of Base)
+    let depTargetMbps = baseTargetMbps * 0.5;
+    let depTargetBps = baseTargetBps * 0.5;
 
-        // Base Max cap (Hardware limit safety)
-        let baseMaxMbps = Math.min(baseTargetMbps * 1.2, 40);
+    // 5. Calculate Max Bitrates (Base Cap at 40Mbps, Dep Cap at 20Mbps)
+    let baseMaxMbps = Math.min(baseTargetMbps * 1.2, 40);
+    let depMaxMbps = Math.min(depTargetMbps * 1.2, 20);
 
-        // Scenarist TS Recording Rates
-        // Base TS includes Base Video + Audio + overhead
-        let tsBaseBps = Math.floor((baseTargetBps + (audioKbps * 1000)) * 1.15);
-        // Dep TS includes Dependent Video + overhead
-        let tsDepBps = Math.floor(depTargetBps * 1.15); 
+    // 6. Scenarist TS Recording Rates (including 15% buffer)
+    let tsBaseBps = Math.floor((baseTargetBps + (audioKbps * 1000)) * 1.15);
+    let tsDepBps = Math.floor(depTargetBps * 1.15); 
 
-        document.getElementById('bitrateOutput').style.display = 'block';
-        document.getElementById('baseTarget').innerText = baseTargetMbps.toFixed(2);
-        document.getElementById('baseMax').innerText = baseMaxMbps.toFixed(2);
-        document.getElementById('tsRateBase').innerText = tsBaseBps.toLocaleString();
-        document.getElementById('tsRateDep').innerText = tsDepBps.toLocaleString();
-    }
+    // 7. Output to UI
+    document.getElementById('output').style.display = 'block'; // Ensure output ID matches your HTML
+    document.getElementById('baseTarget').innerText = baseTargetMbps.toFixed(2);
+    document.getElementById('baseMax').innerText = baseMaxMbps.toFixed(2);
+    document.getElementById('depTarget').innerText = depTargetMbps.toFixed(2); // Ensure this ID exists in your HTML
+    document.getElementById('depMax').innerText = depMaxMbps.toFixed(2);       // Ensure this ID exists in your HTML
+    document.getElementById('tsRateBase').innerText = tsBaseBps.toLocaleString();
+    document.getElementById('tsRateDep').innerText = tsDepBps.toLocaleString();
+}
     </script>
 
     <h2>Part B: CineVision Settings (Truth vs. Myths)</h2>
