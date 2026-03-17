@@ -319,6 +319,50 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         <strong>Direct Import Tip:</strong> In Scenarist, always go to the <strong>Data Tab</strong> to import your assets. Import the <code>.ves</code> file for HD audio, or the <code>.ac3</code> file for standard audio. Once imported, they will be available to drag into your Track Editor.
     </div>
 </section>
+
+        <section id="step3">
+    <h1>Step 3: Extracting and Preparing Subtitles</h1>
+    <p>Subtitles on a Blu-ray are not text files; they are high-quality images (bitmaps). To prepare them for professional authoring, we must extract them and "deconstruct" them into a format Scenarist can read.</p>
+
+    <h2>Part A: Identifying Subtitle Tracks</h2>
+    <p>Before extracting, you need to find which <strong>Stream Index</strong> belongs to the subtitles you want (e.g., English, forced subtitles, etc.). Use <code>ffprobe</code> to scan your MakeMKV backup:</p>
+
+    <pre>ffprobe -v error -show_streams -select_streams s backup.mkv</pre>
+
+    <p>Look for the index number and the <code>TAG:language</code>:</p>
+    <ul>
+        <li>If the subtitles you want are the <strong>first</strong> subtitle stream listed: Use <code>-map 0:s:0</code></li>
+        <li>If they are the <strong>second</strong>: Use <code>-map 0:s:1</code> (and so on).</li>
+    </ul>
+
+    <h2>Part B: Extracting to .SUP Format</h2>
+    <p>Once you have the index, we pull the raw bitstream out of the MKV container using the <code>.sup</code> extension—the standard raw format for Blu-ray subtitles.</p>
+
+    <p><strong>The Command:</strong></p>
+    <pre>ffmpeg -i backup.mkv -map 0:s:0 -c copy movie_subs.sup</pre>
+    <p><em>(Note: Replace <code>0:s:0</code> with the index you found in Part A).</em></p>
+
+    <h2>Part C: Converting for Scenarist (The XML/PNG Method)</h2>
+    <p>Scenarist cannot import a <code>.sup</code> file directly. It requires a series of images (PNGs) and a timing script (XML). To do this, we use <strong>BDSup2Sub++</strong>.</p>
+
+    <div class="authoring-tip" style="border-left-color: #dc3545; background-color: #fff5f5;">
+        <strong>⚠️ CAUTION:</strong> You must use the <strong>++ version</strong> of BDSup2Sub. The regular Java-based version often lacks the stability and specific export features required for professional authoring.
+    </div>
+
+    <ol>
+        <li><strong>Load the Asset:</strong> Open your <code>movie_subs.sup</code> file in BDSup2Sub++.</li>
+        <li><strong>Verify Frame Rate:</strong> Upon loading, ensure the "Source FPS" matches your video (usually <strong>23.976</strong>). If it doesn't, change the "Output FPS" to match.</li>
+        <li><strong>Check for Delay:</strong> If your subtitles need to be offset (e.g., if the movie starts 2 seconds late), you can apply a global delay in the <strong>Edit</strong> menu before exporting.</li>
+        <li><strong>Set Output Format:</strong> In the "Output Format" dropdown menu, select <strong>XML/PNG</strong>.</li>
+        <li><strong>Export:</strong> Go to <strong>File > Export</strong>. Create a dedicated folder for this specific subtitle track (e.g., <code>/SUBS_ENGLISH/</code>).</li>
+    </ol>
+
+    <p><strong>The Result:</strong> The folder will now be filled with hundreds of PNG images and one <code>.xml</code> file containing all timing and positioning data.</p>
+
+    <div class="authoring-tip" style="border-left-color: #007bff; background-color: #f0f7ff;">
+        <strong>ℹ️ IMPORTANT:</strong> Keep in mind that this folder or the <code>.xml</code> file cannot be dragged into CineVision’s Data tab yet. This is just the "deconstruction" phase.
+    </div>
+</section>
         
     </article>
 
