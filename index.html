@@ -290,6 +290,41 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
                 If the English track is the second one in MakeMKV, change the map command to <code>-map 0:a:1</code>.
             </div>
         </section>
+
+    <section>
+    <h2>Part C: The MUI Generator (The "Scenarist Bridge")</h2>
+    <p>Once you have extracted your files, you need to prepare the high-definition tracks. While standard AC3 files can be imported into Scenarist directly, <strong>Lossless HD formats</strong> (TrueHD/Atmos and DTS-HD MA) must be processed through the MUI Generator to create a "VES" (Video Elementary Stream) asset.</p>
+
+    <div class="scenario">
+        <h3>For TrueHD / Atmos</h3>
+        <ol>
+            <li><strong>Launch MUI Generator:</strong> Open the tool from your Scenarist suite.</li>
+            <li><strong>Input:</strong> Load your <code>movie.ac3</code> file.</li>
+            <li><strong>Settings:</strong> Select <strong>"Dolby Lossless"</strong> from the dropdown menu. This tells the generator to automatically find the matching <code>movie.mlp</code> file in that folder and bind them together.</li>
+            <li><strong>Execute:</strong> The tool will generate a <code>.ves</code> and a <code>.mui</code> file.</li>
+        </ol>
+    </div>
+
+    <div class="scenario">
+        <h3>For DTS-HD Master Audio</h3>
+        <ol>
+            <li><strong>Launch MUI Generator:</strong> Open the tool.</li>
+            <li><strong>Input:</strong> Load your <code>movie.dts</code> file.</li>
+            <li><strong>Settings:</strong> Ensure the type is set to <strong>"DTS-HD"</strong>.</li>
+            <li><strong>Execute:</strong> This will create the <code>.ves</code> and <code>.mui</code> files needed for import.</li>
+        </ol>
+    </div>
+
+    <div class="scenario">
+        <h3>For Standard AC3 (5.1 or Stereo)</h3>
+        <p><strong>No MUI Generator needed.</strong> You can drag and drop your <code>.ac3</code> file directly into the <strong>Data Tab</strong> of Scenarist. It is a "native" format that the software understands without a proxy file.</p>
+    </div>
+
+    <div class="authoring-tip">
+        <strong>Direct Import Tip:</strong> In Scenarist, always go to the <strong>Data Tab</strong> to import your assets. Import the <code>.ves</code> file for HD audio, or the <code>.ac3</code> file for standard audio. Once imported, they will be available to drag into your Track Editor.
+    </div>
+</section>
+        
     </article>
 
     <footer>
