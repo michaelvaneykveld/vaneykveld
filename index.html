@@ -410,22 +410,107 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
     </div>
 </section>
 
-        <section id="step5">
+       <section id="step5">
     <h1>Step 5: Encoding for 3D (CineVision)</h1>
-    <p>This is the "heavy lifting" phase. We take our standardized video eyes and compress them into a format that a 3D Blu-ray player can actually decode. Following the correct <strong>MVC (Multiview Video Coding)</strong> parameters is the difference between a disc that plays and one that crashes the player.</p>
-
+    
     <h2>Part A: The 3D Bitrate Calculator</h2>
-    <p>Before encoding, you must calculate your "Bitrate Budget." This ensures the final video, multiple audio tracks, and subtitles all fit onto the physical disc (BD-25 or BD-50) without overflowing.</p>
+    <p>3D Blu-ray encoding is a balancing act. You have two video streams (Base and Dependent) plus high-definition audio tracks all fighting for space on the disc. Use the tool below to calculate your <strong>Target Bitrate</strong> for CineVision.</p>
 
-    <div class="authoring-tip" style="background-color: #f8f9fa; border-left-color: #28a745;">
-        <strong>Interactive Tool:</strong> Below is the logic for the JavaScript Bitrate Calculator. 
-        <br><em>(Formula: [Target Capacity - Audio Size - Subtitles - 5% Overhead] / Duration = Max Video Bitrate)</em>
+    <div class="authoring-tip" style="background-color: #fdfdfd; border: 1px solid #ddd; border-left: 4px solid #2196F3; color: #333;">
+        <style>
+            .calc-container { padding: 10px; max-width: 100%; }
+            .input-row { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 15px; }
+            .input-group { flex: 1; min-width: 200px; }
+            .input-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 5px; color: #555; }
+            .input-group input, .input-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+            .calc-btn { background: #2196F3; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; width: 100%; }
+            .calc-btn:hover { background: #1976D2; }
+            .results-area { margin-top: 20px; padding: 15px; background: #e7f3ff; border-radius: 4px; display: none; }
+            .results-area h4 { margin: 0 0 10px 0; color: #0d47a1; font-size: 1rem; }
+            .res-val { font-family: monospace; font-weight: bold; color: #d32f2f; }
+        </style>
+
+        <div class="calc-container">
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Disc Type</label>
+                    <select id="discType">
+                        <option value="23000">BD-25 (23 GB Limit)</option>
+                        <option value="46000">BD-50 (46 GB Limit)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Movie Duration (HH:MM:SS)</label>
+                    <div style="display: flex; gap: 5px;">
+                        <input type="number" id="h" placeholder="HH" value="1" style="width: 33%;">
+                        <input type="number" id="m" placeholder="MM" value="30" style="width: 33%;">
+                        <input type="number" id="s" placeholder="SS" value="0" style="width: 33%;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Total Audio (kbps)</label>
+                    <input type="number" id="audioKbps" value="1509">
+                </div>
+                <div class="input-group">
+                    <label>Subs/Menus/Overhead (MB)</label>
+                    <input type="number" id="otherMB" value="500">
+                </div>
+            </div>
+
+            <button class="calc-btn" onclick="calculateBitrate()">Calculate CineVision Values</button>
+
+            <div class="results-area" id="bitrateOutput">
+                <h4>Calculation Results:</h4>
+                <p>CineVision <strong>Base Target</strong>: <span class="res-val" id="baseTarget">--</span> Mbps</p>
+                <p>CineVision <strong>Base Max</strong>: <span class="res-val" id="baseMax">--</span> Mbps</p>
+                <hr style="border: 0; border-top: 1px solid #bbdefb; margin: 10px 0;">
+                <p>Scenarist <strong>TS Recording Rate</strong>: <span class="res-val" id="tsRate">--</span> bps</p>
+            </div>
+        </div>
     </div>
+    <script>
+    function calculateBitrate() {
+        const hours = parseInt(document.getElementById('h').value) || 0;
+        const mins = parseInt(document.getElementById('m').value) || 0;
+        const secs = parseInt(document.getElementById('s').value) || 0;
+        const totalSeconds = (hours * 3600) + (mins * 60) + secs;
 
-    <pre>
-// [INSERT BITRATE CALCULATOR CODE HERE]
-// Logic: Calculate space for the "Base" (Left) and "Dependent" (Right) streams.
-    </pre>
+        if (totalSeconds <= 0) return alert("Please enter a valid movie duration.");
+
+        const totalCapacityMB = parseInt(document.getElementById('discType').value);
+        const otherMB = parseInt(document.getElementById('otherMB').value) || 0;
+        
+        let availableForVideoMB = (totalCapacityMB - otherMB) * 0.95; // 5% Safety margin
+        let availableBits = availableForVideoMB * 8 * 1024 * 1024; 
+
+        const audioKbps = parseInt(document.getElementById('audioKbps').value) || 0;
+        const audioTotalBits = audioKbps * 1000 * totalSeconds;
+        availableBits -= audioTotalBits;
+
+        let totalVideoBps = availableBits / totalSeconds;
+        
+        // 3D Logic: Base + Dependent (Dep is roughly 50% of Base)
+        let baseTargetBps = totalVideoBps / 1.5;
+        let baseTargetMbps = baseTargetBps / 1000000;
+
+        // Cap at 40Mbps for standard BD compatibility
+        let baseMaxMbps = Math.min(baseTargetMbps * 1.2, 40);
+
+        let combinedBitrateBps = (baseTargetBps * 1.5) + (audioKbps * 1000);
+        let tsRecordingRate = Math.floor(combinedBitrateBps * 1.1); 
+
+        document.getElementById('bitrateOutput').style.display = 'block';
+        document.getElementById('baseTarget').innerText = baseTargetMbps.toFixed(2);
+        document.getElementById('baseMax').innerText = baseMaxMbps.toFixed(2);
+        document.getElementById('tsRate').innerText = tsRecordingRate.toLocaleString();
+    }
+    </script>
+
+    <h2>Part B: CineVision Settings (Truth vs. Myths)</h2>
+    </section>
 
     <h2>Part B: CineVision Settings (Truth vs. Myths)</h2>
     <p>Many legacy PDF guides contain advice rooted in the software instabilities of the early 2010s. Below is the breakdown of modern "Truths" versus "Bad Advice," followed by the optimized settings list.</p>
