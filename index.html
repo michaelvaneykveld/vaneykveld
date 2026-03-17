@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minimalistische Tutorial</title>
+    <title>3D Blu-ray Mastering Tutorial - Step 1</title>
     <style>
-        /* Basisinstellingen volgens 'Art of Minimal' principes */
         :root {
             --text-color: #222;
             --bg-color: #fff;
             --accent-color: #555;
             --border-color: #eee;
-            --max-width: 700px;
+            --code-bg: #f4f4f4;
+            --max-width: 800px;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
+            line-height: 1.7;
             color: var(--text-color);
             background-color: var(--bg-color);
             margin: 0;
@@ -30,47 +30,85 @@
             width: 100%;
         }
 
-        /* Typografie */
-        h1 { font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1.2; }
-        h2 { font-size: 1.75rem; margin-top: 3rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
-        h3 { font-size: 1.25rem; margin-top: 2rem; color: var(--accent-color); }
+        /* Typography */
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.02em; }
+        h2 { font-size: 1.75rem; margin-top: 3.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.3rem; margin-top: 2rem; color: #000; }
         
         p { margin-bottom: 1.5rem; }
 
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            padding: 1.5rem;
+            overflow-x: auto;
+            border-radius: 6px;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.9rem;
+            border: 1px solid #ddd;
+            margin: 1.5rem 0;
+            line-height: 1.4;
+        }
+
+        code {
+            font-family: monospace;
+            background: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th { background-color: #f9f9f9; font-weight: 600; }
+
         /* Imagebam Thumbnail Layout */
         .screenshot-container {
-            margin: 2rem 0;
+            margin: 2.5rem 0;
             text-align: center;
         }
 
         .screenshot-container img {
             max-width: 100%;
             height: auto;
-            border: 1px solid var(--border-color);
+            border: 1px solid #ddd;
             border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             transition: opacity 0.2s;
         }
 
         .screenshot-container img:hover {
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .caption {
             display: block;
-            font-size: 0.9rem;
-            color: #777;
-            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.8rem;
             font-style: italic;
         }
 
-        /* Links */
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        ul { margin-bottom: 1.5rem; padding-left: 1.2rem; }
+        li { margin-bottom: 0.5rem; }
 
-        /* Responsiviteit */
+        hr { border: 0; border-top: 1px solid var(--border-color); margin: 3rem 0; }
+
         @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            body { padding: 1rem; }
+            h1 { font-size: 1.8rem; }
+            table { font-size: 0.8rem; display: block; overflow-x: auto; }
+            th, td { padding: 8px; }
         }
     </style>
 </head>
@@ -78,38 +116,102 @@
 
 <article>
     <header>
-        <h1>Titel van je Tutorial</h1>
-        <p><em>Een korte introductie over wat de lezer gaat leren in deze gids.</em></p>
+        <h1>3D Blu-ray Mastering Guide</h1>
+        <p>This is the foundational step of your 3D Blu-ray project. Because 3D Blu-rays use a specific <strong>"Multiview Video Coding" (MVC)</strong> extension of the H.264 codec, you cannot simply throw a Side-by-Side (SBS) file onto a disc. You must first separate the eyes into two distinct, standards-compliant video streams.</p>
     </header>
 
-    <h2>1. De Eerste Stap</h2>
-    <p>Hier begin je met de uitleg. Omdat we de "Art of Minimal" hanteren, gebruiken we geen complexe grids. De tekst vloeit natuurlijk onder elkaar, wat ideaal is voor leesbaarheid op zowel een iPhone als een breed scherm.</p>
-    
-    <h3>Sub-onderdeel van de stap</h3>
-    <p>Je kunt hier dieper op de details ingaan. Gebruik korte paragrafen voor een betere scanbaarheid.</p>
+    <section>
+        <h2>Step 1: Splitting and Standardizing the Video</h2>
+        
+        <h3>The Concept</h3>
+        <p>We are taking a single "Full SBS" file (which contains both eyes side-by-side in one wide frame) and slicing it down the middle. Because your source might be a cinema-style "Ultrawide" format (like 3840x800), we must also add black bars (padding) to the top and bottom to reach the mandatory Blu-ray height of 1080 pixels.</p>
 
-    <div class="screenshot-container">
-        <a href="https://www.imagebam.com/LINK_NAAR_VOLLEDIGE_FOTO" target="_blank">
-            <img src="https://thumbs4.imagebam.com/LINK_NAAR_THUMBNAIL.jpg" alt="Screenshot beschrijving">
-        </a>
-        <span class="caption">Klik op de afbeelding om deze in het groot te bekijken op Imagebam.</span>
-    </div>
+        <div class="screenshot-container">
+            <a href="LINK_TO_IMAGEBAM_FULL_IMAGE" target="_blank">
+                <img src="https://via.placeholder.com/800x400.png?text=Full+SBS+to+Split+Streams+Visualization" alt="Visualizing the split and pad process">
+            </a>
+            <span class="caption">Figure 1: Visual process of splitting Full SBS into two 1080p streams with padding.</span>
+        </div>
 
-    <h2>2. Configuratie en Instellingen</h2>
-    <p>In dit gedeelte leg je het volgende proces uit. Door de `border-bottom` bij de H2 koppen is er een duidelijke visuele scheiding terwijl de website wit en rustig blijft.</p>
+        <h3>The Command</h3>
+        <p>Run this in your terminal or command prompt:</p>
+        
+        <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw]; \
+ [l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout]; \
+ [r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" \
+-map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p left_eye.264 \
+-map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p right_eye.264</pre>
 
-    <div class="screenshot-container">
-        <a href="https://www.imagebam.com/LINK_NAAR_VOLLEDIGE_FOTO_2" target="_blank">
-            <img src="https://thumbs4.imagebam.com/LINK_NAAR_THUMBNAIL_2.jpg" alt="Screenshot stap 2">
-        </a>
-    </div>
+        <h3>Command Breakdown: What is happening?</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>What it does</th>
+                    <th>Why it's important</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>split=2</code></td>
+                    <td>Creates two identical copies of the input in memory.</td>
+                    <td>Guarantees the left and right eyes start on the exact same frame.</td>
+                </tr>
+                <tr>
+                    <td><code>crop=1920:ih:x:y</code></td>
+                    <td>Cuts a 1920-pixel wide box out of the source.</td>
+                    <td>Separates the left half from the right half accurately.</td>
+                </tr>
+                <tr>
+                    <td><code>pad=1920:1080...</code></td>
+                    <td>Adds black bars to make the file exactly 1080 pixels high.</td>
+                    <td>Mandatory. Blu-ray players will reject any file that isn't exactly 1080p.</td>
+                </tr>
+                <tr>
+                    <td><code>-crf 16</code></td>
+                    <td>Sets the quality level (Lower is higher quality).</td>
+                    <td>Balances "Master Quality" with smaller file sizes to save disk space.</td>
+                </tr>
+                <tr>
+                    <td><code>-preset slow</code></td>
+                    <td>Tells the encoder to take its time compressing.</td>
+                    <td>Essential for 3D; it prevents "macroblocking" which ruins depth.</td>
+                </tr>
+                <tr>
+                    <td><code>-r 23.976</code></td>
+                    <td>Forces the frame rate to the NTSC standard.</td>
+                    <td>Prevents audio desync and ensures correct shuttering timing.</td>
+                </tr>
+                <tr>
+                    <td><code>-pix_fmt yuv420p</code></td>
+                    <td>Sets the color space to 4:2:0.</td>
+                    <td>Mandatory. Hardware players cannot decode 4:4:4 or 10-bit color.</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <h2>3. Afronding</h2>
-    <p>De laatste stappen van je tutorial. Je kunt hier een samenvatting geven of tips voor verdere verdieping.</p>
+        <hr>
+
+        <h2>Verification: The "Perfect Sync" Check</h2>
+        <p>Before you move to the authoring software, you must ensure both files have the <strong>exact same number of frames</strong>. Even a one-frame difference can cause the 3D effect to fail or the player to crash.</p>
+        
+        <p>Run these two commands:</p>
+        <pre>ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 left_eye.264
+ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 right_eye.264</pre>
+
+        <p>The result must be <strong>identical</strong>. If the left is 144,000 frames, the right must be 144,000 frames.</p>
+
+        <h3>Why this ensures 100% Compatibility</h3>
+        <ul>
+            <li><strong>Resolution:</strong> By padding to 1080p, you satisfy the "BD-ROM" physical specification.</li>
+            <li><strong>Timing:</strong> By using a single command to split, you eliminate "drift" between eyes.</li>
+            <li><strong>Bitstream:</strong> Using <code>.264</code> (raw elementary streams) is the "language" professional authoring tools like Scenarist or TSmuXer speak.</li>
+        </ul>
+    </section>
 
     <footer>
-        <p><hr></p>
-        <p><small>Gepubliceerd op: 17 maart 2024</small></p>
+        <hr>
+        <p><em>Proceed to the next step: Extracting and converting audio/subtitles.</em></p>
     </footer>
 </article>
 
