@@ -254,10 +254,6 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         
         <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.mlp -map 0:a:0 -c copy movie.ac3</pre>
 
-        <div class="authoring-tip">
-            <strong>Authoring Tip:</strong> Drag <code>movie.ac3</code> into Scenarist. When it asks, select "Dolby Lossless". It will automatically "hook" the <code>.mlp</code> file.
-        </div>
-
         <h3>Scenario 2: DTS-HD Master Audio</h3>
         <p>DTS-HD is a "unified" stream. The 5.1 "Core" and the 7.1 "Extension" live together in one file.</p>
         <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.dts</pre>
