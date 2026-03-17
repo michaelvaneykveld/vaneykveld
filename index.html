@@ -307,6 +307,7 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
             <li><strong>Input:</strong> Load your <code>movie.dts</code> file.</li>
             <li><strong>Settings:</strong> Ensure the type is set to <strong>"DTS-HD"</strong>.</li>
             <li><strong>Execute:</strong> This will create the <code>.ves</code> and <code>.mui</code> files needed for import.</li>
+            <li><strong>If Scenarist complains about the bitrate</strong>strong>, open the .ves file in notepad and ensure PeakBitrate uses a dot, not a comma. (This is a classic legacy bug in Sonic software (CineVision/Scenarist). If your Windows "Regional Settings" are set to a country that uses a comma as a decimal separator)</li>
         </ol>
     </div>
 
