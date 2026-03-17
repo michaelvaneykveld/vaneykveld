@@ -463,16 +463,26 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
 
             <button class="calc-btn" onclick="calculateBitrate()">Calculate Encoding & Muxing Values</button>
 
-            <div class="results-area" id="bitrateOutput">
-                <h4>CineVision Settings (Encoding):</h4>
-                <div class="res-row"><span>Base Target:</span> <span class="res-val"><span id="baseTarget">--</span> Mbps</span></div>
-                <div class="res-row"><span>Base Max:</span> <span class="res-val"><span id="baseMax">--</span> Mbps</span></div>
-                
-                <h4 style="margin-top:15px;">Scenarist Settings (Muxing):</h4>
-                <div class="res-row"><span>Base TS Recording Rate:</span> <span class="res-val"><span id="tsRateBase">--</span> bps</span></div>
-                <div class="res-row"><span>Dep. TS Recording Rate:</span> <span class="res-val"><span id="tsRateDep">--</span> bps</span></div>
-                <p style="font-size: 0.75rem; color: #666; margin-top: 5px;">*Dependent view is calculated as 50% of the Base stream.</p>
-            </div>
+<div class="results-area" id="bitrateOutput">
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 240px;">
+            <h4>CineVision (Encoding)</h4>
+            <div class="res-row"><span>Base Target:</span> <span class="res-val"><span id="baseTarget">--</span> Mbps</span></div>
+            <div class="res-row"><span>Base Max:</span> <span class="res-val"><span id="baseMax">--</span> Mbps</span></div>
+            <div class="res-row"><span>Dep. Target:</span> <span class="res-val"><span id="depTarget">--</span> Mbps</span></div>
+            <div class="res-row"><span>Dep. Max:</span> <span class="res-val"><span id="depMax">--</span> Mbps</span></div>
+        </div>
+        
+        <div style="flex: 1; min-width: 240px;">
+            <h4>Scenarist (Muxing)</h4>
+            <div class="res-row"><span>Base TS Rate:</span> <span class="res-val"><span id="tsRateBase">--</span> bps</span></div>
+            <div class="res-row"><span>Dep. TS Rate:</span> <span class="res-val"><span id="tsRateDep">--</span> bps</span></div>
+            <p style="font-size: 0.75rem; color: #666; margin-top: 10px;">
+                *Calculated with a 15% muxing buffer.
+            </p>
+        </div>
+    </div>
+</div>
         </div>
     </div>
     <script>
