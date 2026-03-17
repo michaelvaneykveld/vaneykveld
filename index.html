@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Blu-ray Mastering Tutorial - Step 1</title>
+    <title>3D Blu-ray Mastering Guide</title>
     <style>
         :root {
             --text-color: #222;
@@ -11,6 +11,7 @@
             --accent-color: #555;
             --border-color: #eee;
             --code-bg: #f4f4f4;
+            --tip-bg: #fdf6e3;
             --max-width: 800px;
         }
 
@@ -25,9 +26,15 @@
             justify-content: center;
         }
 
-        article {
+        /* Main container to prevent side-by-side columns */
+        .tutorial-container {
             max-width: var(--max-width);
             width: 100%;
+        }
+
+        article {
+            width: 100%;
+            margin-bottom: 4rem;
         }
 
         /* Typography */
@@ -56,6 +63,17 @@
             padding: 0.2rem 0.4rem;
             border-radius: 3px;
         }
+
+        /* Tips */
+        .authoring-tip {
+            background-color: var(--tip-bg);
+            border-left: 4px solid #b58900;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .authoring-tip strong { color: #b58900; }
 
         /* Tables */
         table {
@@ -100,8 +118,8 @@
             font-style: italic;
         }
 
-        ul { margin-bottom: 1.5rem; padding-left: 1.2rem; }
-        li { margin-bottom: 0.5rem; }
+        ul, ol { margin-bottom: 1.5rem; padding-left: 1.2rem; }
+        li { margin-bottom: 0.8rem; }
 
         hr { border: 0; border-top: 1px solid var(--border-color); margin: 3rem 0; }
 
@@ -114,208 +132,145 @@
 </head>
 <body>
 
-<article>
-    <header>
-        <h1>3D Blu-ray Mastering Guide</h1>
-        <p>This is the foundational step of your 3D Blu-ray project. Because 3D Blu-rays use a specific <strong>"Multiview Video Coding" (MVC)</strong> extension of the H.264 codec, you cannot simply throw a Side-by-Side (SBS) file onto a disc. You must first separate the eyes into two distinct, standards-compliant video streams.</p>
-    </header>
+<div class="tutorial-container">
 
-    <section>
-        <h2>Step 1: Splitting and Standardizing the Video</h2>
-        
-        <h3>The Concept</h3>
-        <p>We are taking a single "Full SBS" file (which contains both eyes side-by-side in one wide frame) and slicing it down the middle. Because your source might be a cinema-style "Ultrawide" format (like 3840x800), we must also add black bars (padding) to the top and bottom to reach the mandatory Blu-ray height of 1080 pixels.</p>
+    <article>
+        <header>
+            <h1>Step 1: Splitting and Standardizing the Video</h1>
+            <p>This is the foundational step of your 3D Blu-ray project. Because 3D Blu-rays use a specific <strong>"Multiview Video Coding" (MVC)</strong> extension of the H.264 codec, you cannot simply throw a Side-by-Side (SBS) file onto a disc. You must first separate the eyes into two distinct, standards-compliant video streams.</p>
+        </header>
 
-        <div class="screenshot-container">
-            <a href="LINK_TO_IMAGEBAM_FULL_IMAGE" target="_blank">
-                <img src="https://via.placeholder.com/800x400.png?text=Full+SBS+to+Split+Streams+Visualization" alt="Visualizing the split and pad process">
-            </a>
-            <span class="caption">Figure 1: Visual process of splitting Full SBS into two 1080p streams with padding.</span>
-        </div>
+        <section>
+            <h3>The Concept</h3>
+            <p>We are taking a single "Full SBS" file (which contains both eyes side-by-side in one wide frame) and slicing it down the middle. Because your source might be a cinema-style "Ultrawide" format (like 3840x800), we must also add black bars (padding) to the top and bottom to reach the mandatory Blu-ray height of 1080 pixels.</p>
 
-        <h3>The Command</h3>
-        <p>Run this in your terminal:</p>
-        
-        <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw]; \
+            <div class="screenshot-container">
+                <a href="LINK_TO_IMAGEBAM_FULL_IMAGE" target="_blank">
+                    <img src="https://via.placeholder.com/800x400.png?text=Full+SBS+to+Split+Streams+Visualization" alt="Visualizing the split and pad process">
+                </a>
+                <span class="caption">Figure 1: Visual process of splitting Full SBS into two 1080p streams with padding.</span>
+            </div>
+
+            <h3>The Command</h3>
+            <p>Run this in your terminal:</p>
+            <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw]; \
  [l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout]; \
  [r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" \
 -map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p left_eye.mkv \
 -map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p right_eye.mkv</pre>
 
-        <p>You want to use the command in 1 line when using command prompt instead:</p>
-        <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw];[l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout];[r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" -map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p left_eye.mkv -map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p right_eye.mkv</pre>
+            <p>You want to use the command in 1 line when using command prompt instead:</p>
+            <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw];[l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout];[r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" -map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p left_eye.mkv -map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p right_eye.mkv</pre>
 
-        <h3>Command Breakdown: What is happening?</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Parameter</th>
-                    <th>What it does</th>
-                    <th>Why it's important</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>split=2</code></td>
-                    <td>Creates two identical copies of the input in memory.</td>
-                    <td>Guarantees the left and right eyes start on the exact same frame.</td>
-                </tr>
-                <tr>
-                    <td><code>crop=1920:ih:x:y</code></td>
-                    <td>Cuts a 1920-pixel wide box out of the source.</td>
-                    <td>Separates the left half from the right half accurately.</td>
-                </tr>
-                <tr>
-                    <td><code>pad=1920:1080...</code></td>
-                    <td>Adds black bars to make the file exactly 1080 pixels high.</td>
-                    <td>Mandatory. Blu-ray players will reject any file that isn't exactly 1080p.</td>
-                </tr>
-                <tr>
-                    <td><code>-crf 16</code></td>
-                    <td>Sets the quality level (Lower is higher quality).</td>
-                    <td>Balances "Master Quality" with smaller file sizes to save disk space.</td>
-                </tr>
-                <tr>
-                    <td><code>-preset slow</code></td>
-                    <td>Tells the encoder to take its time compressing.</td>
-                    <td>Essential for 3D; it prevents "macroblocking" which ruins depth.</td>
-                </tr>
-                <tr>
-                    <td><code>-r 23.976</code></td>
-                    <td>Forces the frame rate to the NTSC standard.</td>
-                    <td>Prevents audio desync and ensures correct shuttering timing.</td>
-                </tr>
-                <tr>
-                    <td><code>-pix_fmt yuv420p</code></td>
-                    <td>Sets the color space to 4:2:0.</td>
-                    <td>Mandatory. Hardware players cannot decode 4:4:4 or 10-bit color.</td>
-                </tr>
-            </tbody>
-        </table>
+            <h3>Command Breakdown</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>What it does</th>
+                        <th>Why it's important</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>split=2</code></td><td>Duplicates input in memory.</td><td>Guarantees exact same starting frame.</td></tr>
+                    <tr><td><code>crop=1920:ih:x:y</code></td><td>Cuts 1920px wide box.</td><td>Separates left from right eye.</td></tr>
+                    <tr><td><code>pad=1920:1080</code></td><td>Adds black bars.</td><td>Mandatory 1080p compliance.</td></tr>
+                    <tr><td><code>-crf 16</code></td><td>Sets quality level.</td><td>Master quality preservation.</td></tr>
+                    <tr><td><code>-preset slow</code></td><td>Higher compression quality.</td><td>Prevents 3D macroblocking.</td></tr>
+                </tbody>
+            </table>
 
-        <hr>
+            <hr>
 
-        <h2>Verification: The "Perfect Sync" Check</h2>
-        <p>Before you move to the authoring software, you must ensure both files have the <strong>exact same number of frames</strong>. Even a one-frame difference can cause the 3D effect to fail or the player to crash.</p>
-        
-        <p>Run these two commands:</p>
-        <pre>ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 left_eye.mkv
+            <h2>Verification: The "Perfect Sync" Check</h2>
+            <p>Ensure both files have the <strong>exact same number of frames</strong> to prevent player crashes.</p>
+            <pre>ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 left_eye.mkv
 ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 right_eye.mkv</pre>
 
-        <p>The result must be <strong>identical</strong>. If the left is 144,000 frames, the right must be 144,000 frames.</p>
+            <h3>Why this ensures 100% Compatibility</h3>
+            <ul>
+                <li><strong>Resolution:</strong> Satisfies the BD-ROM physical specification.</li>
+                <li><strong>Timing:</strong> Eliminates "drift" between eyes.</li>
+                <li><strong>Bitstream:</strong> Standard <code>x264</code> inside <code>mkv</code> is the preferred input for Cinevision.</li>
+            </ul>
+        </section>
+    </article>
 
-        <h3>Why this ensures 100% Compatibility</h3>
-        <ul>
-            <li><strong>Resolution:</strong> By padding to 1080p, you satisfy the "BD-ROM" physical specification.</li>
-            <li><strong>Timing:</strong> By using a single command to split, you eliminate "drift" between eyes.</li>
-            <li><strong>Bitstream:</strong> Creating <code>x264</code> video inside an <code>mkv</code> container is what our Cinevision encoder program wants as input.</li>
-        </ul>
-    </section>
+    <article>
+        <header>
+            <h1>Step 2: Extracting Master-Quality Audio</h1>
+            <p>In this phase, we move from video to high-fidelity audio. Professional Blu-ray authoring requires "Elementary Streams"—clean, individual audio files stripped of their containers.</p>
+        </header>
 
-    <footer>
-        <hr>
-        <p><em>Proceed to the next step: Extracting and converting audio from a blu ray disc.</em></p>
-    </footer>
-</article>
+        <section>
+            <h2>Part A: The MakeMKV Pull</h2>
+            <p>Extract the data off the physical disc without changing a single bit of quality.</p>
+            <ol>
+                <li><strong>Open the Disc:</strong> Launch MakeMKV and click the Optical Drive icon.</li>
+                <li><strong>Select the Title:</strong> Find the largest Title (main movie).</li>
+                <li><strong>Uncheck Video:</strong> You handled this in Step 1.</li>
+                <li><strong>Select Audio:</strong> Check high-definition tracks (DTS-HD MA, TrueHD, etc.).</li>
+                <li><strong>Output:</strong> Click "Make MKV" to create your <code>backup.mkv</code>.</li>
+            </ol>
 
-<article>
-    <header>
-        <h1>Step 2: Extracting Master-Quality Audio</h1>
-        <p>In this phase, we move from video to high-fidelity audio. Professional Blu-ray authoring requires "Elementary Streams"—clean, individual audio files stripped of their containers.
-        We want to use a retail 4k or regular blu ray disc to extract the best possible audio quality, making sure we are using the exact same version of the movie.</p>
-    </header>
+            <div class="screenshot-container">
+                <a href="LINK_TO_IMAGEBAM_MAKEMKV_SCREENSHOT" target="_blank">
+                    <img src="https://via.placeholder.com/800x350.png?text=MakeMKV+Audio+Selection+Interface" alt="MakeMKV interface showing audio tracks">
+                </a>
+                <span class="caption">Figure 2: Selecting only the HD audio tracks in MakeMKV.</span>
+            </div>
+        </section>
 
-    <section>
-        <h2>Part A: The MakeMKV Pull</h2>
-        <p>First, we need to get the data off the physical disc without changing a single bit of quality.</p>
-        
-        <ol>
-            <li><strong>Open the Disc:</strong> Launch MakeMKV and click the Optical Drive icon.</li>
-            <li><strong>Select the Title:</strong> Find the largest Title (the main movie). Expand it by clicking the [+] or arrow.</li>
-            <li><strong>Uncheck Video:</strong> You already handled the video in Step 1.</li>
-            <li><strong>Select Audio:</strong> Check the high-definition tracks (DTS-HD MA, TrueHD, etc.) and your preferred languages.</li>
-            <li><strong>Output:</strong> Click "Make MKV". You now have a file (e.g., <code>backup.mkv</code>) containing only the master audio.</li>
-        </ol>
+        <section>
+            <h2>Part B: The FFmpeg "Surgical" Extraction</h2>
+            <p>Professional tools require raw elementary streams. Use the matching command for your audio type:</p>
 
-        <div class="screenshot-container">
-            <a href="LINK_TO_IMAGEBAM_MAKEMKV_SCREENSHOT" target="_blank">
-                <img src="https://via.placeholder.com/800x350.png?text=MakeMKV+Audio+Selection+Interface" alt="MakeMKV interface showing audio tracks">
-            </a>
-            <span class="caption">Figure 2: Selecting only the HD audio tracks in MakeMKV.</span>
-        </div>
-    </section>
+            <h3>Scenario 1: TrueHD or Atmos (The "Split" Method)</h3>
+            <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.mlp -map 0:a:0 -c copy movie.ac3</pre>
 
-    <section>
-        <h2>Part B: The FFmpeg "Surgical" Extraction</h2>
-        <p>Professional authoring tools are very picky. You cannot just give them an MKV; you must provide the raw "elementary" audio streams. Use the command that matches your audio type:</p>
+            <div class="authoring-tip">
+                <strong>Authoring Tip:</strong> Drag <code>movie.ac3</code> into Scenarist. When prompted, select "Dolby Lossless" to automatically hook the <code>.mlp</code> file.
+            </div>
 
-        <h3>Scenario 1: TrueHD or Atmos (The "Split" Method)</h3>
-        <p>Blu-ray standards require a "Core" AC3 track for older players and an "MLP" track for the lossless Atmos data. They must have the same filename.</p>
-        
-        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.mlp -map 0:a:0 -c copy movie.ac3</pre>
+            <h3>Scenario 2: DTS-HD Master Audio</h3>
+            <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.dts</pre>
 
-        <h3>Scenario 2: DTS-HD Master Audio</h3>
-        <p>DTS-HD is a "unified" stream. The 5.1 "Core" and the 7.1 "Extension" live together in one file.</p>
-        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.dts</pre>
-        
-        <div class="authoring-tip">
-            <strong>Authoring Tip:</strong> Scenarist handles this as a single asset.
-        </div>
+            <h3>Scenario 3: EAC3 (7.1 Dolby Digital Plus)</h3>
+            <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ec3</pre>
 
-        <h3>Scenario 3: EAC3 (7.1 Dolby Digital Plus)</h3>
-        <p>Specifically for 7.1 tracks that aren't TrueHD.</p>
-        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ec3</pre>
+            <h3>Scenario 4: Standard AC3 (5.1 or 2.0)</h3>
+            <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ac3</pre>
 
-        <h3>Scenario 4: Standard AC3 (5.1 Surround or 2.0 Stereo)</h3>
-        <p>The most compatible format for "bonus" tracks or basic stereo.</p>
-        <pre>ffmpeg -i backup.mkv -map 0:a:0 -c copy movie.ac3</pre>
+            <hr>
 
-        <hr>
+            <h2>Technical Cheat Sheet</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>If Audio is...</th>
+                        <th>Use Extension</th>
+                        <th>Why?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Atmos / TrueHD</td><td><code>.ac3 + .mlp</code></td><td>Plays on Atmos setups and legacy receivers.</td></tr>
+                    <tr><td>DTS-HD MA</td><td><code>.dts</code></td><td>Contains both Lossless and Digital Surround core.</td></tr>
+                    <tr><td>7.1 DD+</td><td><code>.ec3</code></td><td>Standard for high-bitrate Dolby Digital Plus.</td></tr>
+                    <tr><td>Stereo / 5.1</td><td><code>.ac3</code></td><td>Universal standard for standard definition audio.</td></tr>
+                </tbody>
+            </table>
 
-        <h2>Technical Cheat Sheet</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>If your Audio is...</th>
-                    <th>Use this Extension</th>
-                    <th>Why?</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Atmos / TrueHD</td>
-                    <td><code>.ac3 + .mlp</code></td>
-                    <td>Ensures the disc plays on both 4K Atmos setups and legacy receivers.</td>
-                </tr>
-                <tr>
-                    <td>DTS-HD MA</td>
-                    <td><code>.dts</code></td>
-                    <td>Contains both the Lossless "Master Audio" and the "Digital Surround" core.</td>
-                </tr>
-                <tr>
-                    <td>7.1 DD+</td>
-                    <td><code>.ec3</code></td>
-                    <td>Required for high-bitrate Dolby Digital Plus streams.</td>
-                </tr>
-                <tr>
-                    <td>Stereo / 5.1</td>
-                    <td><code>.ac3</code></td>
-                    <td>The universal standard for "standard definition" audio on a disc.</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="authoring-tip">
-            <strong>Pro-Tip: Identifying the Track Index</strong><br>
-            If your MakeMKV file has multiple languages, <code>-map 0:a:0</code> grabs the first one. If the English track is the second one listed in MakeMKV, change the command to <code>-map 0:a:1</code>.
-        </div>
-    </section>
+            <div class="authoring-tip">
+                <strong>Pro-Tip: Identifying the Track Index</strong><br>
+                If the English track is the second one in MakeMKV, change the map command to <code>-map 0:a:1</code>.
+            </div>
+        </section>
+    </article>
 
     <footer>
         <hr>
-        <p><em>Proceed to the next step: Subtitle Conversion and Muxing.</em></p>
+        <p style="text-align: center;"><em>End of Current Tutorial Sections</em></p>
     </footer>
-</article>
-    
-</body>
+
+</div> </body>
 </html>
