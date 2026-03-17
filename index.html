@@ -363,6 +363,52 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         <strong>ℹ️ IMPORTANT:</strong> Keep in mind that this folder or the <code>.xml</code> file cannot be dragged into CineVision’s Data tab yet. This is just the "deconstruction" phase.
     </div>
 </section>
+
+        <section id="step4">
+    <h1>Step 4: Extracting Chapters for Scenarist</h1>
+    <p>Chapters are essential for navigation. Professional authoring tools like Scenarist are extremely specific about how they receive this data. You cannot simply import a text list; it must be a precisely formatted, single-line CSV string.</p>
+
+    <h2>Part A: The Primary Source (MakeMKV Backup)</h2>
+    <p>The most efficient way to get Scenarist-ready timecodes is using <code>ffprobe</code> on the MKV you created in Step 2. This file contains the precise timestamps from the original Blu-ray.</p>
+    
+    <p><strong>Run this command to see the chapters:</strong></p>
+    <pre>ffprobe -i backup.mkv -print_format csv -show_chapters -loglevel error</pre>
+
+    <h2>Part B: The Backup Source (SBS Video)</h2>
+    <p>If you don't have the original disc backup, you can extract the chapters from your Full SBS MKV. Note that if the SBS was edited or trimmed, these chapters will be more accurate to your current video length than the original disc data would be.</p>
+    
+    <p><strong>Run this command:</strong></p>
+    <pre>ffprobe -i input_sbs.mkv -print_format csv -show_chapters -loglevel error</pre>
+
+    <hr>
+
+    <h2>Part C: Formatting for the Scenarist CSV</h2>
+    <p>Regardless of which source you used, Scenarist demands a very specific <strong>single-line format</strong>. It will not accept a vertical list or a standard text file. You must assemble the output into a <code>.csv</code> file following these rules:</p>
+
+    <h3>1. The Mandatory Header</h3>
+    <p>Your CSV file must start with the frame rate and the clock type. For a standard 3D Blu-ray, this is:</p>
+    <code>23.976,NonDrop,</code>
+
+    <h3>2. The Timecode Formatting</h3>
+    <p>Scenarist requires the format <strong>HH:MM:SS:FF</strong> (Hours:Minutes:Seconds:Frames).</p>
+    <ul>
+        <li><strong>The Millisecond Trap:</strong> Many tools output <code>HH:MM:SS.ms</code> (milliseconds). You <strong>must</strong> replace that last decimal with a colon and a frame number (00-23).</li>
+        <li><strong>The First Chapter:</strong> You must always start the list with <code>00:00:00:00</code>.</li>
+    </ul>
+
+    <h3>3. Final Assembly</h3>
+    <p>Combine your header and your timestamps into one continuous line separated by commas. There should be no spaces or line breaks.</p>
+
+    <div class="authoring-tip">
+        <strong>Final Result Example:</strong><br>
+        Your <code>chapters.csv</code> should look exactly like this:
+        <pre style="background: #fff; margin-top: 10px;">23.976,NonDrop,00:00:00:00,00:13:48:15,00:23:36:03,00:31:34:18,00:40:02:01,00:48:27:19</pre>
+    </div>
+
+    <div class="authoring-tip" style="border-left-color: #007bff; background-color: #f0f7ff;">
+        <strong>ℹ️ PRO TIP:</strong> If your movie has 24 chapters, all 24 timecodes must sit on that same single line after the header. Scenarist will fail to import if the file contains multiple lines.
+    </div>
+</section>
         
     </article>
 
