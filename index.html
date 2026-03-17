@@ -410,11 +410,11 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
     </div>
 </section>
 
-      <section id="step5">
+     <section id="step5">
     <h1>Step 5: Encoding for 3D (CineVision)</h1>
     
     <h2>Part A: The 3D Bitrate Calculator</h2>
-    <p>3D Blu-ray encoding is a balancing act. You have two video streams (Base and Dependent) plus high-definition audio tracks all fighting for space on the disc. Use the tool below to calculate your <strong>Target Bitrate</strong> for CineVision and the <strong>TS Rates</strong> for Scenarist.</p>
+    <p>3D Blu-ray encoding is a balancing act. Use the tool below to calculate your <strong>Target Bitrate</strong> for CineVision and the <strong>TS Rates</strong> for Scenarist.</p>
 
     <div class="authoring-tip" style="background-color: #fdfdfd; border: 1px solid #ddd; border-left: 4px solid #2196F3; color: #333;">
         <style>
@@ -463,76 +463,70 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
 
             <button class="calc-btn" onclick="calculateBitrate()">Calculate Encoding & Muxing Values</button>
 
-<div class="results-area" id="bitrateOutput">
-    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-        <div style="flex: 1; min-width: 240px;">
-            <h4>CineVision (Encoding)</h4>
-            <div class="res-row"><span>Base Target:</span> <span class="res-val"><span id="baseTarget">--</span> Mbps</span></div>
-            <div class="res-row"><span>Base Max:</span> <span class="res-val"><span id="baseMax">--</span> Mbps</span></div>
-            <div class="res-row"><span>Dep. Target:</span> <span class="res-val"><span id="depTarget">--</span> Mbps</span></div>
-            <div class="res-row"><span>Dep. Max:</span> <span class="res-val"><span id="depMax">--</span> Mbps</span></div>
-        </div>
-        
-        <div style="flex: 1; min-width: 240px;">
-            <h4>Scenarist (Muxing)</h4>
-            <div class="res-row"><span>Base TS Rate:</span> <span class="res-val"><span id="tsRateBase">--</span> bps</span></div>
-            <div class="res-row"><span>Dep. TS Rate:</span> <span class="res-val"><span id="tsRateDep">--</span> bps</span></div>
-            <p style="font-size: 0.75rem; color: #666; margin-top: 10px;">
-                *Calculated with a 15% muxing buffer.
-            </p>
+            <div class="results-area" id="bitrateOutput">
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 240px;">
+                        <h4>CineVision (Encoding)</h4>
+                        <div class="res-row"><span>Base Target:</span> <span class="res-val"><span id="baseTarget">--</span> Mbps</span></div>
+                        <div class="res-row"><span>Base Max:</span> <span class="res-val"><span id="baseMax">--</span> Mbps</span></div>
+                        <div class="res-row"><span>Dep. Target:</span> <span class="res-val"><span id="depTarget">--</span> Mbps</span></div>
+                        <div class="res-row"><span>Dep. Max:</span> <span class="res-val"><span id="depMax">--</span> Mbps</span></div>
+                    </div>
+                    
+                    <div style="flex: 1; min-width: 240px;">
+                        <h4>Scenarist (Muxing)</h4>
+                        <div class="res-row"><span>Base TS Rate:</span> <span class="res-val"><span id="tsRateBase">--</span> bps</span></div>
+                        <div class="res-row"><span>Dep. TS Rate:</span> <span class="res-val"><span id="tsRateDep">--</span> bps</span></div>
+                        <p style="font-size: 0.75rem; color: #666; margin-top: 10px;">
+                            *Calculated with a 15% muxing buffer.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-        </div>
-    </div>
+
     <script>
-   function calculateBitrate() {
-    const hours = parseInt(document.getElementById('h').value) || 0;
-    const mins = parseInt(document.getElementById('m').value) || 0;
-    const secs = parseInt(document.getElementById('s').value) || 0;
-    const totalSeconds = (hours * 3600) + (mins * 60) + secs;
+    function calculateBitrate() {
+        const hours = parseInt(document.getElementById('h').value) || 0;
+        const mins = parseInt(document.getElementById('m').value) || 0;
+        const secs = parseInt(document.getElementById('s').value) || 0;
+        const totalSeconds = (hours * 3600) + (mins * 60) + secs;
 
-    if (totalSeconds <= 0) return alert("Please enter a valid movie duration.");
+        if (totalSeconds <= 0) return alert("Please enter a valid movie duration.");
 
-    const totalCapacityMB = parseInt(document.getElementById('discType').value);
-    const otherMB = parseInt(document.getElementById('otherMB').value) || 0;
-    
-    // 1. Calculate available space with a 5% safety margin for muxing
-    let availableForVideoMB = (totalCapacityMB - otherMB) * 0.95; 
-    let availableBits = availableForVideoMB * 8 * 1024 * 1024; 
+        const totalCapacityMB = parseInt(document.getElementById('discType').value);
+        const otherMB = parseInt(document.getElementById('otherMB').value) || 0;
+        
+        let availableForVideoMB = (totalCapacityMB - otherMB) * 0.95; 
+        let availableBits = availableForVideoMB * 8 * 1024 * 1024; 
 
-    // 2. Subtract Audio overhead
-    const audioKbps = parseInt(document.getElementById('audioKbps').value) || 0;
-    const audioTotalBits = audioKbps * 1000 * totalSeconds;
-    availableBits -= audioTotalBits;
+        const audioKbps = parseInt(document.getElementById('audioKbps').value) || 0;
+        const audioTotalBits = audioKbps * 1000 * totalSeconds;
+        availableBits -= audioTotalBits;
 
-    // 3. Solve for Base Bitrate
-    // Formula: Total Video = Base + Dependent (where Dep is 50% of Base)
-    let totalVideoBps = availableBits / totalSeconds;
-    let baseTargetBps = totalVideoBps / 1.5;
-    let baseTargetMbps = baseTargetBps / 1000000;
-    
-    // 4. Calculate Dependent Target (50% of Base)
-    let depTargetMbps = baseTargetMbps * 0.5;
-    let depTargetBps = baseTargetBps * 0.5;
+        let totalVideoBps = availableBits / totalSeconds;
+        let baseTargetBps = totalVideoBps / 1.5;
+        let baseTargetMbps = baseTargetBps / 1000000;
+        
+        let depTargetMbps = baseTargetMbps * 0.5;
+        let depTargetBps = baseTargetBps * 0.5;
 
-    // 5. Calculate Max Bitrates (Base Cap at 40Mbps, Dep Cap at 20Mbps)
-    let baseMaxMbps = Math.min(baseTargetMbps * 1.2, 40);
-    let depMaxMbps = Math.min(depTargetMbps * 1.2, 20);
+        let baseMaxMbps = Math.min(baseTargetMbps * 1.2, 40);
+        let depMaxMbps = Math.min(depTargetMbps * 1.2, 20);
 
-    // 6. Scenarist TS Recording Rates (including 15% buffer)
-    let tsBaseBps = Math.floor((baseTargetBps + (audioKbps * 1000)) * 1.15);
-    let tsDepBps = Math.floor(depTargetBps * 1.15); 
+        let tsBaseBps = Math.floor((baseTargetBps + (audioKbps * 1000)) * 1.15);
+        let tsDepBps = Math.floor(depTargetBps * 1.15); 
 
-    // 7. Output to UI
-    document.getElementById('output').style.display = 'block'; // Ensure output ID matches your HTML
-    document.getElementById('baseTarget').innerText = baseTargetMbps.toFixed(2);
-    document.getElementById('baseMax').innerText = baseMaxMbps.toFixed(2);
-    document.getElementById('depTarget').innerText = depTargetMbps.toFixed(2); // Ensure this ID exists in your HTML
-    document.getElementById('depMax').innerText = depMaxMbps.toFixed(2);       // Ensure this ID exists in your HTML
-    document.getElementById('tsRateBase').innerText = tsBaseBps.toLocaleString();
-    document.getElementById('tsRateDep').innerText = tsDepBps.toLocaleString();
-}
+        // FIX: Changed 'output' to 'bitrateOutput' to match the HTML ID
+        document.getElementById('bitrateOutput').style.display = 'block';
+        document.getElementById('baseTarget').innerText = baseTargetMbps.toFixed(2);
+        document.getElementById('baseMax').innerText = baseMaxMbps.toFixed(2);
+        document.getElementById('depTarget').innerText = depTargetMbps.toFixed(2);
+        document.getElementById('depMax').innerText = depMaxMbps.toFixed(2);
+        document.getElementById('tsRateBase').innerText = tsBaseBps.toLocaleString();
+        document.getElementById('tsRateDep').innerText = tsDepBps.toLocaleString();
+    }
     </script>
 
     <h2>Part B: CineVision Settings (Truth vs. Myths)</h2>
