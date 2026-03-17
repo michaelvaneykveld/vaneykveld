@@ -409,6 +409,81 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         <strong>ℹ️ PRO TIP:</strong> If your movie has 24 chapters, all 24 timecodes must sit on that same single line after the header. Scenarist will fail to import if the file contains multiple lines.
     </div>
 </section>
+
+        <section id="step5">
+    <h1>Step 5: Encoding for 3D (CineVision)</h1>
+    <p>This is the "heavy lifting" phase. We take our standardized video eyes and compress them into a format that a 3D Blu-ray player can actually decode. Following the correct <strong>MVC (Multiview Video Coding)</strong> parameters is the difference between a disc that plays and one that crashes the player.</p>
+
+    <h2>Part A: The 3D Bitrate Calculator</h2>
+    <p>Before encoding, you must calculate your "Bitrate Budget." This ensures the final video, multiple audio tracks, and subtitles all fit onto the physical disc (BD-25 or BD-50) without overflowing.</p>
+
+    <div class="authoring-tip" style="background-color: #f8f9fa; border-left-color: #28a745;">
+        <strong>Interactive Tool:</strong> Below is the logic for the JavaScript Bitrate Calculator. 
+        <br><em>(Formula: [Target Capacity - Audio Size - Subtitles - 5% Overhead] / Duration = Max Video Bitrate)</em>
+    </div>
+
+    <pre>
+// [INSERT BITRATE CALCULATOR CODE HERE]
+// Logic: Calculate space for the "Base" (Left) and "Dependent" (Right) streams.
+    </pre>
+
+    <h2>Part B: CineVision Settings (Truth vs. Myths)</h2>
+    <p>Many legacy PDF guides contain advice rooted in the software instabilities of the early 2010s. Below is the breakdown of modern "Truths" versus "Bad Advice," followed by the optimized settings list.</p>
+
+    <h3>1. The Truth (What to Follow)</h3>
+    <ul>
+        <li><strong>Scan Mode & Pixel Format:</strong> You <strong>must</strong> set Scan Mode to <strong>Progressive</strong> and Pixel Format to <strong>YV12</strong>. 3D Blu-rays are inherently progressive; encoding as interlaced will cause a critical failure during Scenarist import.</li>
+        <li><strong>GOP Structure:</strong> Setting <strong>B-frames to 3</strong> and <strong>Reference Frames to 4</strong> is the gold standard. This provides the best compression while staying within hardware playback limits.</li>
+        <li><strong>Motion Search:</strong> Setting this to <strong>Exhaustive</strong> is essential for quality. It is the slowest mode, but it ensures the encoder accurately maps the similarities between the Left and Right eyes to save bitrate.</li>
+        <li><strong>Bitrate Buffering:</strong> Never max out your bitrate to the theoretical limit. Always leave a safety margin to prevent "Buffer Underflow" errors in the final muxing stage.</li>
+    </ul>
+
+    <h3>2. The "Bad" (What to Ignore)</h3>
+    <p><strong>The "No Pyramid B-frames" Myth:</strong> Some tutorials claim you should disable "Pyramid B-frame structure." This is incorrect for modern, stable environments. <strong>Pyramid B-frames</strong> (hierarchical B-frames) significantly improve compression efficiency and should remain <strong>ON</strong>.</p>
+
+    <hr>
+
+    <h2>3. The "Perfect" CineVision Settings List</h2>
+    <p>Use these specific settings to ensure a 100% compliant encode that imports perfectly into Scenarist:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tab</th>
+                <th>Setting</th>
+                <th>Recommended Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Video</strong></td>
+                <td>Scan Mode / Pixel Format</td>
+                <td>Progressive / YV12</td>
+            </tr>
+            <tr>
+                <td><strong>Bit Rate</strong></td>
+                <td>Type / Max Bitrate</td>
+                <td>VBR (2-Pass) / 40,000 kbps (Total)</td>
+            </tr>
+            <tr>
+                <td><strong>Picture Structure</strong></td>
+                <td>B-Frames / B-Pyramid</td>
+                <td>3 / <strong>ON</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Motion Search</strong></td>
+                <td>Reference Frames / Mode</td>
+                <td>4 / Exhaustive</td>
+            </tr>
+            <tr>
+                <td><strong>Advanced</strong></td>
+                <td>GOP Size</td>
+                <td>24 (or "Auto")</td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
         
     </article>
 
