@@ -588,13 +588,44 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         </tbody>
     </table>
 
+         <h2>Part C: Finalizing the Encode and Managing the "Speed Limit"</h2>
+
+<p>Before you hit the "Start" button in CineVision, you need to understand the Transport Rate. Think of the Blu-ray player as a pipe: it can only handle a certain amount of data per second.</p>
+<p>1. The 64.8 Mbps Speed Limit
+
+The total transport rate of a 3D Blu-ray (the combined bitrate of your Video + all Audio tracks + Subtitles) cannot exceed 64.8 Mbps.
+
+    The Balancing Act: If you are only including one English DTS-HD track, you can afford a very high video bitrate.
+
+    The Warning: If you are adding five different languages or multiple lossless tracks, those audio streams "eat" into your speed limit. If the total data flow gets too high, Scenarist will throw a Buffer Underflow error because the "pipe" is full.
+
+    The Strategy: Use the calculator from Part A to ensure your settings are safe. It’s better to have a slightly lower bitrate than a disc that crashes your player.</p>
+
+<p>2. The Final Push in CineVision
+
+Once you have imported your Left and Right eye views and applied the "Perfect Settings" we discussed, it’s time to encode.
+
+    Start the Encode: Go to File > Encode > Session. CineVision will now begin the heavy lifting of creating your 3D MVC streams.
+
+    Seal the Deal: Once the encoding bars reach 100%, you aren't quite done. You must go to File > Finalize Session. This step "wraps" the data into the final files that Scenarist can read.</p>
+
+<p>3. The "Clean Up" (What to Keep)</p>
+
+CineVision creates a lot of temporary "junk" files during the process. To keep your project folder organized, you only need to keep two files for the next step:
+
+    The Base View: Look for the file ending in .mvc (This is your Left Eye).
+
+    The Dependent View: Look for the file ending in _d.mvc (This is your Right Eye data).
+
+Everything else in that folder can be deleted. You now have the "Master Video Assets" ready for the final authoring stage.</p>
+
 </section>
         
     </article>
 
     <footer>
         <hr>
-        <p style="text-align: center;"><em>End of Current Tutorial Sections</em></p>
+        <p style="text-align: center;"><em>Work in progress</em></p>
     </footer>
 
 </div> </body>
