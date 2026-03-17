@@ -134,13 +134,16 @@
         </div>
 
         <h3>The Command</h3>
-        <p>Run this in your terminal or command prompt:</p>
+        <p>Run this in your terminal</p>
         
         <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw]; \
  [l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout]; \
  [r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" \
 -map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p left_eye.mkv \
 -map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -pix_fmt yuv420p right_eye.mkv</pre>
+
+        <p>You want to use the command in 1 line when using command prompt instead:</p>
+        <pre>ffmpeg -i input.mkv -filter_complex "[0:v]split=2[l_raw][r_raw];[l_raw]crop=1920:ih:0:0,pad=1920:1080:0:(1080-ih)/2:black[leftout];[r_raw]crop=1920:ih:1920:0,pad=1920:1080:0:(1080-ih)/2:black[rightout]" -map "[leftout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p left_eye_3D.mkv -map "[rightout]" -c:v libx264 -crf 16 -preset slow -r 23.976 -vsync cfr -pix_fmt yuv420p right_eye_3D.mkv</pre>
 
         <h3>Command Breakdown: What is happening?</h3>
         <table>
