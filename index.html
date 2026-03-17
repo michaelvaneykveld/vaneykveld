@@ -544,7 +544,6 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
     <li><strong>The "No Pyramid B-frames" Myth:</strong> Some tutorials claim you should disable "Pyramid B-frame structure." This is incorrect for modern, stable environments. <strong>Pyramid B-frames</strong> (hierarchical B-frames) significantly improve compression efficiency and should remain <strong>ON</strong>.</li>
     <li>It is common to see a "Buffer Underflow" error during the final muxing stage in Scenarist. Many users assume they need to go back to CineVision (advanced settings) to "increase the buffer," but this is a mistake. This happens due to a fault TSRecordingRate in Scenarist.</li>
 
-As your guide points out, the fix for a Buffer Underflow happens in Scenarist, not CineVision
     <hr>
 
     <h2>3. The "Perfect" CineVision Settings List</h2>
