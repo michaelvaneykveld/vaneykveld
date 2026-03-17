@@ -410,11 +410,11 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
     </div>
 </section>
 
-       <section id="step5">
+      <section id="step5">
     <h1>Step 5: Encoding for 3D (CineVision)</h1>
     
     <h2>Part A: The 3D Bitrate Calculator</h2>
-    <p>3D Blu-ray encoding is a balancing act. You have two video streams (Base and Dependent) plus high-definition audio tracks all fighting for space on the disc. Use the tool below to calculate your <strong>Target Bitrate</strong> for CineVision.</p>
+    <p>3D Blu-ray encoding is a balancing act. You have two video streams (Base and Dependent) plus high-definition audio tracks all fighting for space on the disc. Use the tool below to calculate your <strong>Target Bitrate</strong> for CineVision and the <strong>TS Rates</strong> for Scenarist.</p>
 
     <div class="authoring-tip" style="background-color: #fdfdfd; border: 1px solid #ddd; border-left: 4px solid #2196F3; color: #333;">
         <style>
@@ -428,6 +428,7 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
             .results-area { margin-top: 20px; padding: 15px; background: #e7f3ff; border-radius: 4px; display: none; }
             .results-area h4 { margin: 0 0 10px 0; color: #0d47a1; font-size: 1rem; }
             .res-val { font-family: monospace; font-weight: bold; color: #d32f2f; }
+            .res-row { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px solid #bbdefb; padding-bottom: 5px; }
         </style>
 
         <div class="calc-container">
@@ -460,14 +461,17 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
                 </div>
             </div>
 
-            <button class="calc-btn" onclick="calculateBitrate()">Calculate CineVision Values</button>
+            <button class="calc-btn" onclick="calculateBitrate()">Calculate Encoding & Muxing Values</button>
 
             <div class="results-area" id="bitrateOutput">
-                <h4>Calculation Results:</h4>
-                <p>CineVision <strong>Base Target</strong>: <span class="res-val" id="baseTarget">--</span> Mbps</p>
-                <p>CineVision <strong>Base Max</strong>: <span class="res-val" id="baseMax">--</span> Mbps</p>
-                <hr style="border: 0; border-top: 1px solid #bbdefb; margin: 10px 0;">
-                <p>Scenarist <strong>TS Recording Rate</strong>: <span class="res-val" id="tsRate">--</span> bps</p>
+                <h4>CineVision Settings (Encoding):</h4>
+                <div class="res-row"><span>Base Target:</span> <span class="res-val"><span id="baseTarget">--</span> Mbps</span></div>
+                <div class="res-row"><span>Base Max:</span> <span class="res-val"><span id="baseMax">--</span> Mbps</span></div>
+                
+                <h4 style="margin-top:15px;">Scenarist Settings (Muxing):</h4>
+                <div class="res-row"><span>Base TS Recording Rate:</span> <span class="res-val"><span id="tsRateBase">--</span> bps</span></div>
+                <div class="res-row"><span>Dep. TS Recording Rate:</span> <span class="res-val"><span id="tsRateDep">--</span> bps</span></div>
+                <p style="font-size: 0.75rem; color: #666; margin-top: 5px;">*Dependent view is calculated as 50% of the Base stream.</p>
             </div>
         </div>
     </div>
@@ -483,7 +487,7 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
         const totalCapacityMB = parseInt(document.getElementById('discType').value);
         const otherMB = parseInt(document.getElementById('otherMB').value) || 0;
         
-        let availableForVideoMB = (totalCapacityMB - otherMB) * 0.95; // 5% Safety margin
+        let availableForVideoMB = (totalCapacityMB - otherMB) * 0.95; 
         let availableBits = availableForVideoMB * 8 * 1024 * 1024; 
 
         const audioKbps = parseInt(document.getElementById('audioKbps').value) || 0;
@@ -492,25 +496,27 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
 
         let totalVideoBps = availableBits / totalSeconds;
         
-        // 3D Logic: Base + Dependent (Dep is roughly 50% of Base)
+        // 3D Logic: Total Video = Base + Dependent (Dep = 0.5 * Base)
         let baseTargetBps = totalVideoBps / 1.5;
         let baseTargetMbps = baseTargetBps / 1000000;
+        let depTargetBps = baseTargetBps * 0.5;
 
-        // Cap at 40Mbps for standard BD compatibility
+        // Base Max cap (Hardware limit safety)
         let baseMaxMbps = Math.min(baseTargetMbps * 1.2, 40);
 
-        let combinedBitrateBps = (baseTargetBps * 1.5) + (audioKbps * 1000);
-        let tsRecordingRate = Math.floor(combinedBitrateBps * 1.1); 
+        // Scenarist TS Recording Rates
+        // Base TS includes Base Video + Audio + overhead
+        let tsBaseBps = Math.floor((baseTargetBps + (audioKbps * 1000)) * 1.15);
+        // Dep TS includes Dependent Video + overhead
+        let tsDepBps = Math.floor(depTargetBps * 1.15); 
 
         document.getElementById('bitrateOutput').style.display = 'block';
         document.getElementById('baseTarget').innerText = baseTargetMbps.toFixed(2);
         document.getElementById('baseMax').innerText = baseMaxMbps.toFixed(2);
-        document.getElementById('tsRate').innerText = tsRecordingRate.toLocaleString();
+        document.getElementById('tsRateBase').innerText = tsBaseBps.toLocaleString();
+        document.getElementById('tsRateDep').innerText = tsDepBps.toLocaleString();
     }
     </script>
-
-    <h2>Part B: CineVision Settings (Truth vs. Myths)</h2>
-    </section>
 
     <h2>Part B: CineVision Settings (Truth vs. Myths)</h2>
     <p>Many legacy PDF guides contain advice rooted in the software instabilities of the early 2010s. Below is the breakdown of modern "Truths" versus "Bad Advice," followed by the optimized settings list.</p>
