@@ -614,7 +614,7 @@ ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=
 Everything else in that folder can be deleted. You now have the "Master Video Assets" ready for the final authoring stage.</p>
 
     <h2>Part E: The "Turbo Boost" (AviSynth Frameserving)</h2>
-    <p>Sometimes CineVision is "picky" with modern <code>.mkv</code> files. It might fail to recognize settings (showing red boxes) or become extremely slow (0.1 fps). To fix this, we use <strong>AviSynth</strong>.</p>
+    <p>Sometimes CineVision is "picky" with modern <code>.mkv</code> files. It might fail or become extremely slow (0.1 fps). To fix this, we use <strong>AviSynth</strong>.</p>
     
     <div class="authoring-tip" style="background-color: #f0f7ff; border-left-color: #007bff;">
         <strong>Think of AviSynth as a "Translator":</strong> It sits between your MKV file and CineVision. It prepares the video and feeds it to the encoder in a "pre-chewed" format that CineVision understands perfectly.
@@ -645,14 +645,14 @@ ConvertToYV12()
     <h3>3. Why are we doing this?</h3>
     <div class="scenario">
         <ul>
-            <li><strong>No More "Red Boxes":</strong> Because the script pre-sets the framerate and color, CineVision recognizes the file properties instantly.</li>
+            <li><strong>CineVision is legacy software</strong> Because we are working with old 32bit software, we require aviSynth to be the guy in between for compatability.</li>
             <li><strong>Full Speed:</strong> Instead of waiting days for an encode, using AviSynth often boosts the speed, finishing the task in just a few hours.</li>
             <li><strong>Stability:</strong> It prevents CineVision from crashing halfway through because of a "dropped frame" inside the MKV container.</li>
         </ul>
     </div>
 
     <h3>4. Loading into CineVision</h3>
-    <p>Instead of dragging your <code>.mkv</code> files into CineVision, simply drag and drop your <code>.avs</code> scripts. You will notice that the "Calculating Time" bar now completes almost instantly.</p>
+    <p>Instead of selecting your <code>.mkv</code> files into CineVision, simply choose your <code>.avs</code> scripts. You will notice that the "Calculating Time" bar now completes almost instantly.</p>
 
     <div class="authoring-tip" style="border-left-color: #b58900;">
         <strong>Expert Tip:</strong> If <code>FFVideoSource</code> gives you an error, make sure the filename inside the quotes matches your MKV filename exactly (including capitals).
