@@ -633,8 +633,9 @@ ConvertToYV12()
         <strong>Expert Tip:</strong> If <code>FFVideoSource</code> gives you an error, make sure the filename inside the quotes matches your MKV filename exactly (including capitals).
     </div>
 
+    <h3>5. Understanding the transport rate limits</h3>     
          <p>Before you hit the "Start button" in CineVision, you need to understand the Transport Rate. Think of the Blu-ray player as a pipe: it can only handle a certain amount of data per second.</p>
-<p><strong>1. The 64.8 Mbps Speed Limit:</strong> The total transport rate of a 3D Blu-ray (the combined bitrate of your Video + all Audio tracks + Subtitles) cannot exceed 64.8 Mbps.
+<p><strong>The 64.8 Mbps Speed Limit:</strong> The total transport rate of a 3D Blu-ray (the combined bitrate of your Video + all Audio tracks + Subtitles) cannot exceed 64.8 Mbps.
 
     The Balancing Act: If you are only including one English DTS-HD track, you can afford a very high video bitrate.
 
@@ -642,13 +643,14 @@ ConvertToYV12()
 
     The Strategy: Use the calculator from Part A to ensure your settings are safe. It’s better to have a slightly lower bitrate than a disc that crashes your player.</p>
 
-<p><strong>2. The Final Push in CineVision:</strong> Once you have imported your Left and Right eye views and applied the "Perfect Settings" we discussed, it’s time to encode.
+<h3>6. Encoding and Finalzing</h3>  
+         <p>Once you have imported your Left and Right eye views and applied the "Perfect Settings" we discussed, it’s time to encode.
 
     Start the Encode: Go to File > Encode > Session. CineVision will now begin the heavy lifting of creating your 3D MVC streams.
 
     Seal the Deal: Once the encoding bars reach 100%, you aren't quite done. You must go to File > Finalize Session. This step "wraps" the data into the final files that Scenarist can read.</p>
-
-<p><strong>3. The "Clean Up" (What to Keep):</strong> CineVision creates a lot of temporary "junk" files during the process. To keep your project folder organized, you only need to keep two files for the next step:
+<h3>7. The Cleanup</h3>  
+<p> CineVision creates a lot of temporary "junk" files during the process. To keep your project folder organized, you only need to keep two files for the next step:
 
     The Base View: Look for the file ending in .mvc (This is your Left Eye).
 
