@@ -550,8 +550,19 @@
             <h3>1. The Truth (What to Follow)</h3>
             <ul>
                 <li><strong>Scan Mode & Pixel Format:</strong> You <strong>must</strong> set Scan Mode to <strong>Progressive</strong> and Pixel Format to <strong>YV12</strong>. 3D Blu-rays are inherently progressive; encoding as interlaced will cause a critical failure during Scenarist import.</li>
-                <li><strong>GOP Structure:</strong> Setting <strong>B-frames to 3</strong> and <strong>Reference Frames to 4</strong> is the gold standard. This provides the best compression while staying within hardware playback limits.</li>
+                <li><strong>GOP Structure:</strong> Setting <strong>B-frames to 3</strong> and <strong>Reference Frames to 3</strong> is the gold standard. This provides the best compression while staying within hardware playback limits.</li>
+
+                    
+                
                 <li><strong>Motion Search:</strong> Setting this to <strong>Exhaustive</strong> is essential for quality. It is the slowest mode, but it ensures the encoder accurately maps the similarities between the Left and Right eyes to save bitrate.</li>
+
+            <div class="screenshot-container">
+                <a href="https://www.imagebam.com/view/ME1BFYMU" target="_blank">
+                    <img src="https://thumbs4.imagebam.com/40/16/e4/ME1BFYMU_t.png" alt="{3DBA3B2F-0439-4E9A-B908-85C1602864D5}.png"/>
+                </a>
+                <span class="caption">Figure x: CineVision's "Motion search" tab with all modes set to exhaustive.</span>
+            </div
+                
                 <li><strong>Bitrate Buffering:</strong> Never max out your bitrate to the theoretical limit. Always leave a safety margin to prevent "Buffer Underflow" errors in the final muxing stage.</li>
             </ul>
 
