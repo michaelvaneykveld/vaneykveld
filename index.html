@@ -543,12 +543,6 @@
             }
             </script>
 
-            <div class="screenshot-container">
-                <a href="https://www.imagebam.com/view/ME1BFW95" target="_blank">
-                    <img src="https://thumbs4.imagebam.com/db/02/f2/ME1BFW95_t.png" alt="{76FA2D4B-C72D-4F7A-B58D-D2E0D6770ECE}.png"/>
-                </a>
-                <span class="caption">Figure 1: CineVision's bitrate window sits under Edit settings > Bit rate</span>
-            </div>
 
             <h2>Part B: CineVision Settings (Truth vs. Myths)</h2>
             <p>Many legacy PDF guides contain advice rooted in the software instabilities of the early 2010s. Below is the breakdown of modern "Truths" versus "Bad Advice," followed by the optimized settings list.</p>
@@ -564,7 +558,13 @@
             <h3>2. The "Bad" (What to Ignore)</h3>
             <li><strong>The "No Pyramid B-frames" Myth:</strong> Some tutorials claim you should disable "Pyramid B-frame structure." This is incorrect for modern, stable environments. <strong>Pyramid B-frames</strong> (hierarchical B-frames) significantly improve compression efficiency and should remain <strong>ON</strong>.</li>
             <li>It is common to see a "Buffer Underflow" error during the final muxing stage in Scenarist. Many users assume they need to go back to CineVision (advanced settings) to "increase the buffer," but this is a mistake. This happens due to a fault TSRecordingRate in Scenarist. <strong>You should leave both buffer sizes at 30000kbits in CineVision!</strong></li>
-
+            
+            <div class="screenshot-container">
+                <a href="https://www.imagebam.com/view/ME1BFW95" target="_blank">
+                    <img src="https://thumbs4.imagebam.com/db/02/f2/ME1BFW95_t.png" alt="{76FA2D4B-C72D-4F7A-B58D-D2E0D6770ECE}.png"/>
+                </a>
+                <span class="caption">Figure x: CineVision's "view buffer sizes" should stay untouched, as should the rest on this tab.</span>
+            </div>
             <hr>
 
             <h3>3. The "Perfect" CineVision Settings List</h3>
