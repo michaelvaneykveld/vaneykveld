@@ -552,6 +552,12 @@
                 <li><strong>Scan Mode & Pixel Format:</strong> You <strong>must</strong> set Scan Mode to <strong>Progressive</strong> and Pixel Format to <strong>YV12</strong>. 3D Blu-rays are inherently progressive; encoding as interlaced will cause a critical failure during Scenarist import.</li>
                 <li><strong>GOP Structure:</strong> Setting <strong>B-frames to 3</strong> and <strong>Reference Frames to 3</strong> is the gold standard. This provides the best compression while staying within hardware playback limits.</li>
 
+            <div class="screenshot-container">
+                <a href="https://www.imagebam.com/view/ME1BFYTB" target="_blank">
+                    <img src="https://thumbs4.imagebam.com/db/85/95/ME1BFYTB_t.png" alt="{DD8E80C2-D81A-462B-B032-34966ABF6A20}.png"/>
+                </a>
+                <span class="caption">Figure x: The "Picture structure" tab uses 3 B-frame pyramid structure</span>
+            </div
                     
                 
                 <li><strong>Motion Search:</strong> Setting this to <strong>Exhaustive</strong> is essential for quality. It is the slowest mode, but it ensures the encoder accurately maps the similarities between the Left and Right eyes to save bitrate.</li>
