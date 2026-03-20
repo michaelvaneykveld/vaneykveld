@@ -753,6 +753,161 @@
             <h1>Step 6: Authoring in Scenarist BD</h1>         
         </header>  
 
+            <h2>The Scenarist BD workflow</h2>
+
+                <p><strong>Screenshot 1:</strong> Create a new Solution.</p>
+                            <div class="screenshot-container">
+                <a href="https://www.imagebam.com/view/ME1BGTXP" target="_blank">
+                    <img src="https://thumbs4.imagebam.com/0b/72/65/ME1BGTXP_t.png" alt="{0E35FE73-FC14-4C65-A481-CDEAB2170EAE}.png"/>
+                </a>
+                <span class="caption">Figure 1: Creating a new solution.</span>
+                </div>
+                
+                <p><strong>Screenshot 2:</strong> Once the solution is created, right-click it and select <em>New Disc Project</em>.</p>
+                <div class="screenshot">[Insert Screenshot 2 here]</div>
+                
+                <p><strong>Screenshot 3:</strong> Give your disc and solution a clear, recognizable name.</p>
+                <div class="screenshot">[Insert Screenshot 3 here]</div>
+                
+                <p><strong>Screenshot 4:</strong> In the Solution Explorer, set <strong>InitialOutputMode</strong> to <strong>Stereoscopic</strong>. This is required for Blu-ray 3D.</p>
+                <div class="screenshot">[Insert Screenshot 4 here]</div>
+                
+                <p><strong>Screenshot 5:</strong> Go to the DataTree tab and drag your <code>.mvc</code> file onto <strong>Data</strong>. You will be prompted to select the corresponding <code>_d.mvc</code> file.</p>
+                <div class="screenshot">[Insert Screenshot 5 here]</div>
+                
+                <p><strong>Screenshot 6:</strong> Scenarist will generate VES/MUI/XUI files. This may take a few minutes. Once complete, your video streams will appear under Data.</p>
+                <div class="screenshot">[Insert Screenshot 6 here]</div>
+                
+                <p><strong>Screenshot 7:</strong> Drag your audio file into the DataTree. For TrueHD 7.1, use the generated <code>.ves</code> file. Double-click it and set the correct language code.</p>
+                <div class="screenshot">[Insert Screenshot 7 here]</div>
+                
+                <p><strong>Screenshot 8:</strong> Import subtitles via <em>Data → Import → Subtitle Script</em>. Select your XML file (created with Sup2Sub++). Accept the start time prompt and save the resulting <code>.pes</code> file. Repeat for all subtitle tracks.</p>
+                <div class="screenshot">[Insert Screenshot 8 here]</div>
+                
+                <p><strong>Screenshot 9:</strong> Verify that each subtitle stream has the correct <strong>LanguageCode</strong>.</p>
+                <div class="screenshot">[Insert Screenshot 9 here]</div>
+                
+                <p><strong>Screenshot 10:</strong> Right-click your <code>.mvc.ves</code> and select <em>Generate → Playlist</em>. It may look like nothing happens.</p>
+                <div class="screenshot">[Insert Screenshot 10 here]</div>
+                
+                <p><strong>Screenshot 11:</strong> Go to the StreamTree tab and expand everything. Double-click <strong>Base_video</strong> to confirm the video is loaded (blue bars).</p>
+                <div class="screenshot">[Insert Screenshot 11 here]</div>
+                
+                <p><strong>Screenshot 12:</strong> Link your assets:
+                <ul>
+                <li>Audio → Primary Audio</li>
+                <li>Extra audio → Secondary Audio</li>
+                <li>Subtitles → PG (Presentation Graphics)</li>
+                </ul>
+                </p>
+                <div class="screenshot">[Insert Screenshot 12 here]</div>
+                
+                <p><strong>Screenshot 13:</strong> Import chapters via <em>Playlist → Import → Chapter File</em>. Warnings about I-frames are normal.</p>
+                <div class="screenshot">[Insert Screenshot 13 here]</div>
+                
+                <p><strong>Screenshot 14:</strong> Right-click playlist → <strong>Edit Offset Sequences</strong> to configure subtitle depth.</p>
+                <div class="screenshot">[Insert Screenshot 14 here]</div>
+                
+                <p><strong>Screenshot 15:</strong> Set subtitle depth:
+                <ul>
+                <li>Select “0 – Default from stream”</li>
+                <li>Set to <strong>Fixed Value</strong></li>
+                <li>Use value <strong>20</strong> (recommended)</li>
+                </ul>
+                Repeat for each subtitle stream.</p>
+                <div class="screenshot">[Insert Screenshot 15 here]</div>
+                
+                <p><strong>Screenshot 16:</strong> Open the ScenarioTree. You will see <strong>FirstPlayback</strong> and <strong>TopMenu</strong>.</p>
+                <div class="screenshot">[Insert Screenshot 16 here]</div>
+                
+                <p><strong>Screenshot 17:</strong> Right-click Scenario → <em>New → HDMV Title</em>.</p>
+                <div class="screenshot">[Insert Screenshot 17 here]</div>
+                
+                <p><strong>Screenshot 18:</strong> Right-click FirstPlayback → <em>SetMovieObject</em>.</p>
+                <div class="screenshot">[Insert Screenshot 18 here]</div>
+                
+                <p><strong>Screenshot 19:</strong> Rename the MovieObject under Title to <strong>MO#2</strong>.</p>
+                <div class="screenshot">[Insert Screenshot 19 here]</div>
+                
+                <p><strong>Screenshot 20:</strong> Right-click TopMenu → <em>SetMovieObject</em> → select <strong>MO#2</strong>.</p>
+                <div class="screenshot">[Insert Screenshot 20 here]</div>
+                
+                <p><strong>Screenshot 21:</strong> Go to StreamTree and drag your playlist onto both <strong>MO#1</strong> and <strong>MO#2</strong>.</p>
+                <div class="screenshot">[Insert Screenshot 21 here]</div>
+                
+                <p><strong>Screenshot 22:</strong> Your Scenario Editor should now be fully linked.</p>
+                <div class="screenshot">[Insert Screenshot 22 here]</div>
+                
+                <h3>Critical Validation</h3>
+                
+                <p><strong>Screenshot 23:</strong> Check the Base Movie Clip:
+                <ul>
+                <li>Set <strong>TSRecordingRate</strong></li>
+                <li>Note the exact <strong>Presentation End Time</strong></li>
+                </ul>
+                </p>
+                <div class="screenshot">[Insert Screenshot 23 here]</div>
+                
+                <p><strong>Screenshot 24:</strong> Check the dependent (MVC) stream:
+                <ul>
+                <li>Set TSRecordingRate</li>
+                <li>Ensure End Time matches exactly</li>
+                </ul>
+                If not identical, your 3D will fail on hardware players.</p>
+                <div class="screenshot">[Insert Screenshot 24 here]</div>
+                
+                <h3>Disc Layout</h3>
+                
+                <p><strong>Screenshot 25:</strong> Go to <em>Tool → Disc Layout</em>:
+                <ul>
+                <li>Set Volume Label</li>
+                <li>Select 2 layers for BD50</li>
+                <li>Click “Layout Disc”</li>
+                </ul>
+                Ensure Layer 0 is larger than Layer 1.</p>
+                <div class="screenshot">[Insert Screenshot 25 here]</div>
+                
+                <p><strong>Screenshot 26:</strong> Confirm both layers are displayed correctly.</p>
+                <div class="screenshot">[Insert Screenshot 26 here]</div>
+                
+                <h3>Muxing</h3>
+                
+                <p><strong>Screenshot 27:</strong> Go to <em>Tool → Mux</em>.</p>
+                <div class="screenshot">[Insert Screenshot 27 here]</div>
+                
+                <p><strong>Screenshot 28:</strong> Select <strong>BDRE v3 Output</strong> and choose a location with enough free space.</p>
+                <div class="screenshot">[Insert Screenshot 28 here]</div>
+                
+                <p><strong>Screenshot 29:</strong> Start muxing. If errors occur:
+                <ul>
+                <li>Buffer underrun → TSRecordingRate too low</li>
+                <li>Fails at 50% → incorrect TSRecordingRate</li>
+                <li>Disk full → insufficient space</li>
+                </ul>
+                </p>
+                <div class="screenshot">[Insert Screenshot 29 here]</div>
+                
+                <h3>Final Notes</h3>
+                
+                <p>You now have a fully functional Blu-ray 3D structure with:
+                <ul>
+                <li>Proper MVC video</li>
+                <li>Dolby TrueHD Atmos audio</li>
+                <li>Chapters</li>
+                <li>3D subtitles with depth</li>
+                </ul>
+                </p>
+                
+                <p>This guide focuses on a clean, no-menu disc for maximum compatibility.</p>
+                
+                <p><strong>Important:</strong> If your disc plays in 2D only, verify:
+                <ul>
+                <li>MVC was added after AVC</li>
+                <li>MVC is correctly linked as dependent</li>
+                <li>Both streams have identical duration and frame count</li>
+                </ul>
+                </p>
+
         <section></section>
     </article>
 
