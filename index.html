@@ -688,64 +688,14 @@
                 </tbody>
             </table>
 
-            <h2>Part C: The "Turbo Boost" (AviSynth Frameserving)</h2>
-            <p>Sometimes CineVision is "picky" with modern <code>.mkv</code> files. It might fail or become extremely slow (0.1 fps). To fix this, we use <strong>AviSynth</strong>.</p>
-            
-            <div class="authoring-tip" style="background-color: #f0f7ff; border-left-color: #007bff;">
-                <strong>Think of AviSynth as a "Translator":</strong> It sits between your MKV file and CineVision. It prepares the video and feeds it to the encoder in a "pre-chewed" format that CineVision understands perfectly.
-            </div>
+            <h2>Part C: The Cleanup</h2>
+            <p>Sometimes CineVision is "picky" with modern <code>.mkv</code> files. It might not accept any .mkv, so we use <strong>mkvmerge</strong> which is part of the MKVToolNix toolset.</p>
+    
 
             <h3>1. The Requirements</h3>
-            <ul>
-                <li><strong>Install AviSynth+ (32-bit/x86 version):</strong> <span style="color: #d32f2f; font-weight: bold;">Note:</span> The 64-bit version will <u>not</u> work with CineVision!</li>
-                <li><strong>FFMS2 Plugin:</strong> Download the 32-bit FFMS2 plugin and place <code>ffms2.dll</code> in your AviSynth plugins folder: <br> 
-                <code>C:\Program Files (x86)\AviSynth+\plugins\</code></li>
-            </ul>
 
-            <h3>2. Creating the "Magic" Script</h3>
-            <p>Open Notepad, paste the text below, and save the file as <code>left_eye.avs</code> (make sure it doesn't end in <code>.txt</code>!) in the same folder as your video.</p>
-
-            <pre>
-                # Opens your MKV file without relying on buggy Windows decoders
-                FFVideoSource("left_eye_3D.mkv")
-
-                # Forces the video to exact Blu-ray speed (23.976 fps)
-                AssumeFPS(24000, 1001)
-
-                # Converts the colorspace to YV12 (The format CineVision requires)
-                ConvertToYV12()
-            </pre>
-            <p><em>(Repeat this for your right eye and name it <code>right_eye.avs</code>)</em></p>
-
-            <div class="screenshot-container">
-                <a href="https://www.imagebam.com/view/ME1BFZVJ" target="_blank">
-                    <img src="https://thumbs4.imagebam.com/ee/cb/7f/ME1BFZVJ_t.png" alt="{C1A38FF8-247C-45FC-B8DA-786801F8E118}.png"/>
-                </a>
-                <span class="caption">Figure 6: Use a text editor like notepad to create your .avs files.</span>
-            </div>
-
-            <h3>3. Why are we doing this?</h3>
-            <div class="scenario">
-                <ul>
-                    <li><strong>CineVision is legacy software</strong> Because we are working with old 32bit software, we require aviSynth to be the guy in between for compatability.</li>
-                    <li><strong>Full Speed:</strong> Instead of waiting days for an encode, using AviSynth often boosts the speed, finishing the task in just a few hours.</li>
-                    <li><strong>Stability:</strong> It prevents CineVision from crashing halfway through because of a "dropped frame" inside the MKV container.</li>
-                </ul>
-            </div>
-
-            <h3>4. Loading into CineVision</h3>
-            <p>Instead of selecting your <code>.mkv</code> files into CineVision, simply choose your <code>.avs</code> scripts.</p>
-
-            <div class="authoring-tip" style="border-left-color: #b58900;">
-                <strong>Expert Tip:</strong> If <code>FFVideoSource</code> gives you an error, make sure the filename inside the quotes matches your MKV filename exactly (including capitals).
-            </div>
-
-            <div class="screenshot-container">
-                <a href="https://www.imagebam.com/view/ME1BFYWF" target="_blank">
-                    <img src="https://thumbs4.imagebam.com/00/8a/b2/ME1BFYWF_t.png" alt="{9109C2AF-639D-45B4-A750-347E8B24A36A}.png"/>
-                </a>
-                <span class="caption">Figure 7: Selecting your input files.</span>
-            </div>
+            <p><strong>This part is under re-write</strong></p>
+            <p>mkvmerge -o output.mkv --no-global-tags --no-chapters --engage no_variable_data input.mkv</p>
 
             <h3>5. Understanding the transport rate limits</h3>     
                 <p>Before you hit the "Start button" in CineVision, you need to understand the Transport Rate. Think of the Blu-ray player as a pipe: it can only handle a certain amount of data per second.</p>
