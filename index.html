@@ -688,6 +688,10 @@
                 </tbody>
             </table>
 
+            <div class="authoring-tip">
+                <strong>Encoding tip:</strong> In Cinevision, when encountering <strong>high bitrate spikes</strong> you want to keep those low enough because Scenarist will not mux video that exceeds bitrate limits. In the <code>Bitrate Tab</code> of you settings, lower the <code>Maximum Quantization</code> to a lower value. 85% is a sweet spot without impacting quality.
+            </div>
+
             <h2>Part C: The Cleanup</h2>
             <p>Sometimes CineVision is "picky" with modern <code>.mkv</code> files. It might not accept any .mkv, so we use <strong>mkvmerge</strong> which is part of the MKVToolNix toolset.</p>
     
