@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCU Collection Tracker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Roboto+Mono:wght@400;500&amp;display=swap');
+        
+        :root {
+            --primary: #e62429;
+            --dark: #0f172a;
+            --card: #1e2937;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+            color: #e2e8f0;
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #e62429, #f97316);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        
+        .phase-header {
+            background: var(--card);
+            color: white;
+            padding: 18px 24px;
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 12px;
+            border-radius: 12px 12px 0 0;
+            border-left: 6px solid var(--primary);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .phase-header::before {
+            content: "⚡";
+            font-size: 1.4rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3);
+            margin-bottom: 60px;
+        }
+        
+        thead {
+            background: #1e2937;
+        }
+        
+        th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 500;
+            color: #cbd5e1;
+            border-bottom: 2px solid #334155;
+        }
+        
+        th.movie-col {
+            width: 65%;
+        }
+        
+        th.check-col {
+            width: 17.5%;
+            text-align: center;
+        }
+        
+        tr {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        tr:hover {
+            background: #334155;
+            transform: translateX(4px);
+        }
+        
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #334155;
+            vertical-align: middle;
+        }
+        
+        .movie-name {
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+        
+        .release-year {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-left: 8px;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .checkbox-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: #e62429;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        input[type="checkbox"]:checked {
+            box-shadow: 0 0 0 3px rgba(230, 36, 41, 0.3);
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0 40px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+        
+        .legend-box {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #64748b;
+            border-radius: 4px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .completed {
+            color: #4ade80;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MCU COLLECTION</h1>
+        <p class="subtitle">Infinity Saga &amp; Multiverse Saga • Physical Media Tracker</p>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <span style="font-weight: 600; color: #e2e8f0;">Movie</span>
+            </div>
+            <div class="legend-item">
+                <span>3D Blu-ray</span>
+                <div class="legend-box"></div>
+            </div>
+            <div class="legend-item">
+                <span>Steelbook</span>
+                <div class="legend-box"></div>
+            </div>
+        </div>
+        
+        <!-- PHASE ONE -->
+        <div class="phase-header">THE INFINITY SAGA: PHASE ONE (2008-2012)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="movie-col">Movie</th>
+                    <th class="check-col">3D Blu-ray</th>
+                    <th class="check-col">Steelbook</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="movie-name">Iron Man</span><span class="release-year">2008</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">The Incredible Hulk</span><span class="release-year">2008</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Iron Man 2</span><span class="release-year">2010</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Thor</span><span class="release-year">2011</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Captain America: The First Avenger</span><span class="release-year">2011</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Marvel’s The Avengers</span><span class="release-year">2012</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+            </tbody>
+        </table>
+        
+        <!-- PHASE TWO -->
+        <div class="phase-header">THE INFINITY SAGA: PHASE TWO (2013-2015)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="movie-col">Movie</th>
+                    <th class="check-col">3D Blu-ray</th>
+                    <th class="check-col">Steelbook</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="movie-name">Iron Man 3</span><span class="release-year">2013</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Thor: The Dark World</span><span class="release-year">2013</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Captain America: The Winter Soldier</span><span class="release-year">2014</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Guardians of the Galaxy</span><span class="release-year">2014</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Avengers: Age of Ultron</span><span class="release-year">2015</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Ant-Man</span><span class="release-year">2015</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+            </tbody>
+        </table>
+        
+        <!-- PHASE THREE -->
+        <div class="phase-header">THE INFINITY SAGA: PHASE THREE (2016-2019)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="movie-col">Movie</th>
+                    <th class="check-col">3D Blu-ray</th>
+                    <th class="check-col">Steelbook</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="movie-name">Captain America: Civil War</span><span class="release-year">2016</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Doctor Strange</span><span class="release-year">2016</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Guardians of the Galaxy Vol. 2</span><span class="release-year">2017</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Spider-Man: Homecoming</span><span class="release-year">2017</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Thor: Ragnarok</span><span class="release-year">2017</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Black Panther</span><span class="release-year">2018</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Avengers: Infinity War</span><span class="release-year">2018</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Ant-Man and the Wasp</span><span class="release-year">2018</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Captain Marvel</span><span class="release-year">2019</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Avengers: Endgame</span><span class="release-year">2019</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Spider-Man: Far From Home</span><span class="release-year">2019</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+            </tbody>
+        </table>
+        
+        <!-- PHASE FOUR -->
+        <div class="phase-header">THE MULTIVERSE SAGA: PHASE FOUR (2021-2022)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="movie-col">Movie</th>
+                    <th class="check-col">3D Blu-ray</th>
+                    <th class="check-col">Steelbook</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="movie-name">Black Widow</span><span class="release-year">2021</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Shang-Chi and the Legend of the Ten Rings</span><span class="release-year">2021</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Eternals</span><span class="release-year">2021</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Spider-Man: No Way Home</span><span class="release-year">2021</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Doctor Strange in the Multiverse of Madness</span><span class="release-year">2022</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Thor: Love and Thunder</span><span class="release-year">2022</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Black Panther: Wakanda Forever</span><span class="release-year">2022</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+            </tbody>
+        </table>
+        
+        <!-- PHASE FIVE -->
+        <div class="phase-header">THE MULTIVERSE SAGA: PHASE FIVE (2023-2024)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="movie-col">Movie</th>
+                    <th class="check-col">3D Blu-ray</th>
+                    <th class="check-col">Steelbook</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="movie-name">Ant-Man and the Wasp: Quantumania</span><span class="release-year">2023</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Guardians of the Galaxy Vol. 3</span><span class="release-year">2023</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">The Marvels</span><span class="release-year">2023</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Deadpool &amp; Wolverine</span><span class="release-year">2024</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Captain America: Brave New World</span><span class="release-year">2025</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Thunderbolts*</span><span class="release-year">2025</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+            </tbody>
+        </table>
+        
+        <!-- PHASE SIX -->
+        <div class="phase-header">THE MULTIVERSE SAGA: PHASE SIX (2025-2027)</div>
+        <table>
+            <thead>
+                <tr>
+                    <th class="movie-col">Movie</th>
+                    <th class="check-col">3D Blu-ray</th>
+                    <th class="check-col">Steelbook</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><span class="movie-name">The Fantastic Four: First Steps</span><span class="release-year">2025</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Spider-Man: Brand New Day</span><span class="release-year">2026</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Avengers: Doomsday</span><span class="release-year">2026</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+                <tr><td><span class="movie-name">Avengers: Secret Wars</span><span class="release-year">2027</span></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td><td><div class="checkbox-wrapper"><input type="checkbox"></div></td></tr>
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <p>Marvel Cinematic Universe Physical Collection Tracker • Checkboxes saved in browser localStorage</p>
+        </div>
+    </div>
+
+    <script>
+        // Persist checkbox state using localStorage
+        document.querySelectorAll('input[type="checkbox"]').forEach((checkbox, index) => {
+            const key = `mcu_checkbox_${index}`;
+            // Load saved state
+            if (localStorage.getItem(key) === 'true') {
+                checkbox.checked = true;
+            }
+            
+            // Save on change
+            checkbox.addEventListener('change', () => {
+                localStorage.setItem(key, checkbox.checked);
+            });
+        });
+        
+        // Optional: Add a "Mark all watched" button or progress counter in future
+        console.log('%cMCU Tracker loaded successfully ✨', 'color:#e62429; font-weight:600');
+    </script>
+</body>
+</html>
